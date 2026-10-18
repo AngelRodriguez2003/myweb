@@ -1,0 +1,83 @@
+---
+import { languages, otherLang, routes, useTranslations, type Lang, type RouteId } from '../i18n/utils';
+
+interface Props {
+	lang: Lang;
+	route: RouteId;
+}
+
+const { lang, route } = Astro.props;
+const t = useTranslations(lang);
+const other = otherLang(lang);
+---
+
+<div class="lang" role="group" aria-label={t.a11y.language}>
+	{
+		(Object.keys(languages) as Lang[]).map((code) => (
+			<a
+				class="lang__option"
+				href={routes[route][code]}
+				hreflang={code}
+				lang={code}
+				aria-current={code === lang ? 'true' : undefined}
+			>
+				{languages[code]}
+			</a>
+		))
+	}
+</div>
+
+<a class="lang-pill" href={routes[route][other]} hreflang={other} aria-label={t.a11y.switchLanguage}>
+	{languages[other]}
+</a>
+
+<style>
+	.lang {
+		display: flex;
+		gap: 2px;
+		padding: 4px;
+		border: 1px solid var(--line-3);
+		border-radius: 999px;
+	}
+
+	.lang__option,
+	.lang-pill {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		height: 34px;
+		min-width: 44px;
+		border-radius: 999px;
+		color: var(--text-4);
+		font-family: var(--font-mono-stack);
+		font-size: 12px;
+		text-decoration: none;
+	}
+
+	.lang__option[aria-current='true'] {
+		background: var(--text);
+		color: var(--bg);
+		font-weight: 500;
+	}
+
+	.lang__option:not([aria-current]):hover {
+		color: var(--text);
+	}
+
+	.lang-pill {
+		display: none;
+		height: 44px;
+		border: 1px solid var(--line-3);
+		color: var(--text);
+	}
+
+	@media (max-width: 899px) {
+		.lang {
+			display: none;
+		}
+
+		.lang-pill {
+			display: inline-flex;
+		}
+	}
+</style>

@@ -1,0 +1,129 @@
+/*
+ * Design tokens, taken from docs/design/Portafolio Angel Rodriguez.html.
+ * The dark theme is the designed one; the light theme is derived from it.
+ * The "warm" palette (--w-*) is used for Project Explosive media and its case study.
+ */
+
+:root,
+:root[data-theme='dark'] {
+	color-scheme: dark;
+
+	--bg: #111210;
+	--surface: #181915;
+	--surface-2: #171815;
+	--surface-3: #1d1e1a;
+	--line: #262823;
+	--line-2: #2a2c27;
+	--line-3: #33352f;
+	--line-4: #44463f;
+	--line-dash: #4a4c44;
+	--line-dash-2: #3e403a;
+
+	--text: #edebe4;
+	--text-hover: #ffffff;
+	--text-2: #d6d4cb;
+	--text-3: #c9c7bd;
+	--text-4: #bdbbb1;
+	--muted: #a9a79d;
+	--faint: #8e8c82;
+	--placeholder: #6e6c63;
+	--dot: #3a3c35;
+
+	--accent: #c6f36b;
+	--accent-ink: #c6f36b;
+	--on-accent: #111210;
+	--warn: #ffa566;
+	--overlay: rgb(8 8 7 / 0.8);
+
+	--w-bg: #100e0d;
+	--w-deep: #0b0908;
+	--w-band: #161210;
+	--w-surface: #1a1614;
+	--w-surface-2: #241f1b;
+	--w-line: #2c2521;
+	--w-line-2: #3b322c;
+	--w-line-3: #4a3f37;
+	--w-text: #f6f1eb;
+	--w-text-2: #d9cfc5;
+	--w-muted: #a79c92;
+	--w-accent: #e2703f;
+	--w-accent-ink: #e2703f;
+	--w-on-accent: #1a0d06;
+	--w-ok: #4fbf8b;
+	--w-frame: #3b322c;
+	--w-tab-bg: #f6f1eb;
+	--w-tab-fg: #100e0d;
+}
+
+:root[data-theme='light'] {
+	color-scheme: light;
+
+	--bg: #f4f3ed;
+	--surface: #fbfaf6;
+	--surface-2: #efeee7;
+	--surface-3: #e9e8e0;
+	--line: #e2e0d7;
+	--line-2: #dad8ce;
+	--line-3: #cfcdc2;
+	--line-4: #bdbbaf;
+	--line-dash: #b4b2a6;
+	--line-dash-2: #c4c2b6;
+
+	--text: #161714;
+	--text-hover: #000000;
+	--text-2: #2e2f2a;
+	--text-3: #3c3d37;
+	--text-4: #4a4b45;
+	--muted: #5e5f57;
+	--faint: #6f7068;
+	--placeholder: #9c9b90;
+	--dot: #cfcdc2;
+
+	--accent: #c6f36b;
+	--accent-ink: #4a7311;
+	--on-accent: #111210;
+	--warn: #b4530f;
+	--overlay: rgb(22 23 20 / 0.55);
+
+	--w-bg: #faf6f1;
+	--w-deep: #16110e;
+	--w-band: #f3ece4;
+	--w-surface: #f0e8df;
+	--w-surface-2: #e7ddd2;
+	--w-line: #e3d8cc;
+	--w-line-2: #d5c7b8;
+	--w-line-3: #c2b2a2;
+	--w-text: #1e1612;
+	--w-text-2: #3e322a;
+	--w-muted: #6e6157;
+	--w-accent: #b5501f;
+	--w-accent-ink: #b5501f;
+	--w-on-accent: #ffffff;
+	--w-ok: #23845a;
+	--w-frame: #3b322c;
+	--w-tab-bg: #1e1612;
+	--w-tab-fg: #faf6f1;
+}
+
+:root {
+	--font-display-stack: var(--font-display), 'Helvetica Neue', sans-serif;
+	--font-body-stack: var(--font-body), 'Helvetica Neue', sans-serif;
+	--font-mono-stack: var(--font-mono), ui-monospace, monospace;
+
+	/* Fluid scale between the 390px (mobile) and 1440px (desktop) boards. */
+	--gutter: clamp(1.25rem, -1.07rem + 9.52vw, 7.5rem);
+	--section-y: clamp(3rem, 1.886rem + 4.571vw, 6rem);
+	--fs-h1: clamp(3.625rem, 2.56rem + 4.38vw, 6.5rem);
+	--fs-h2: clamp(2.125rem, 1.7rem + 1.714vw, 3.25rem);
+	--fs-display: clamp(3rem, 1.886rem + 4.571vw, 6rem);
+	--fs-lead: clamp(1.0625rem, 0.993rem + 0.286vw, 1.25rem);
+	--fs-body: clamp(1.0625rem, 1.016rem + 0.19vw, 1.1875rem);
+	--fs-label: clamp(0.75rem, 0.703rem + 0.19vw, 0.875rem);
+
+	--radius-sm: 8px;
+	--radius: 12px;
+	--radius-md: 18px;
+	--radius-lg: 22px;
+	--radius-xl: 28px;
+	--max-width: 1440px;
+}

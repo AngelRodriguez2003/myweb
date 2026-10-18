@@ -1,0 +1,226 @@
+---
+import { site } from '../data/site';
+import { routes, useTranslations, type Lang } from '../i18n/utils';
+import Icon from './Icon.astro';
+import LangToggle from './LangToggle.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const links = [
+	{ href: '#sobre-mi', label: t.nav.about },
+	{ href: '#habilidades', label: t.nav.skills },
+	{ href: '#experiencia', label: t.nav.experience },
+	{ href: '#proyectos', label: t.nav.projects },
+	{ href: '#contacto', label: t.nav.contact },
+];
+---
+
+<header class="header">
+	<div class="container header__bar">
+		<a class="brand" href={routes.home[lang]} aria-label={t.a11y.home}>
+			<span class="brand__mark" aria-hidden="true">AR</span>
+			<span class="brand__handle" aria-hidden="true">{site.handle}</span>
+		</a>
+
+		<div class="header__actions">
+			<nav class="nav" id="site-nav" aria-label={t.a11y.mainNav}>
+				{links.map((link) => <a href={link.href}>{link.label}</a>)}
+			</nav>
+			<LangToggle lang={lang} route="home" />
+			<ThemeToggle lang={lang} />
+			<button
+				type="button"
+				class="icon-btn menu-toggle"
+				aria-controls="site-nav"
+				aria-expanded="false"
+				aria-label={t.a11y.openMenu}
+				data-label-open={t.a11y.openMenu}
+				data-label-close={t.a11y.closeMenu}
+			>
+				<Icon name="menu" class="menu-toggle__open" />
+				<Icon name="close" class="menu-toggle__close" />
+			</button>
+		</div>
+	</div>
+</header>
+
+<style>
+	.header {
+		position: relative;
+		z-index: 20;
+		border-bottom: 1px solid var(--line);
+		background: var(--bg);
+	}
+
+	.header__bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		height: 88px;
+	}
+
+	.brand {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		text-decoration: none;
+	}
+
+	.brand__mark {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border-radius: 10px;
+		background: var(--accent);
+		color: var(--on-accent);
+		font-family: var(--font-display-stack);
+		font-weight: 800;
+		font-size: 17px;
+	}
+
+	.brand__handle {
+		font-family: var(--font-mono-stack);
+		font-size: 14px;
+		color: var(--text-2);
+	}
+
+	.header__actions {
+		display: flex;
+		align-items: center;
+		gap: 36px;
+	}
+
+	.nav {
+		display: flex;
+		align-items: center;
+		gap: 36px;
+		font-size: 15px;
+	}
+
+	.nav a {
+		color: var(--text-4);
+		text-decoration: none;
+	}
+
+	.nav a:hover {
+		color: var(--text);
+	}
+
+	.menu-toggle {
+		display: none;
+		border-radius: 12px;
+	}
+
+	.menu-toggle :global(.menu-toggle__close),
+	.menu-toggle[aria-expanded='true'] :global(.menu-toggle__open) {
+		display: none;
+	}
+
+	.menu-toggle[aria-expanded='true'] :global(.menu-toggle__close) {
+		display: block;
+	}
+
+	@media (max-width: 1099px) {
+		.header__actions,
+		.nav {
+			gap: 24px;
+		}
+	}
+
+	@media (max-width: 899px) {
+		.header__bar {
+			height: 68px;
+		}
+
+		.brand {
+			gap: 10px;
+		}
+
+		.brand__mark {
+			width: 36px;
+			height: 36px;
+			border-radius: 9px;
+			font-size: 15px;
+		}
+
+		.brand__handle {
+			font-size: 13px;
+		}
+
+		.header__actions {
+			gap: 8px;
+		}
+
+		.menu-toggle {
+			display: inline-flex;
+		}
+
+		.nav {
+			position: absolute;
+			top: 100%;
+			left: 0;
+			right: 0;
+			display: none;
+			flex-direction: column;
+			align-items: stretch;
+			gap: 0;
+			padding: 8px var(--gutter) 20px;
+			border-bottom: 1px solid var(--line);
+			background: var(--bg);
+			font-family: var(--font-display-stack);
+			font-weight: 700;
+			font-size: 24px;
+		}
+
+		.nav a {
+			padding: 14px 0;
+			border-bottom: 1px solid var(--line-2);
+			color: var(--text);
+		}
+
+		.nav a:last-child {
+			border-bottom: 0;
+		}
+
+		.header[data-menu-open] .nav {
+			display: flex;
+		}
+	}
+
+	@media (max-width: 359px) {
+		.brand__handle {
+			display: none;
+		}
+	}
+</style>
+
+<script>
+	const header = document.querySelector<HTMLElement>('.header');
+	const toggle = header?.querySelector<HTMLButtonElement>('.menu-toggle');
+
+	if (header && toggle) {
+		const setOpen = (open: boolean) => {
+			header.toggleAttribute('data-menu-open', open);
+			toggle.setAttribute('aria-expanded', String(open));
+			toggle.setAttribute('aria-label', (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) ?? '');
+		};
+
+		toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+		header.querySelectorAll('.nav a').forEach((link) => link.addEventListener('click', () => setOpen(false)));
+		document.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape' && header.hasAttribute('data-menu-open')) {
+				setOpen(false);
+				toggle.focus();
+			}
+		});
+	}
+</script>

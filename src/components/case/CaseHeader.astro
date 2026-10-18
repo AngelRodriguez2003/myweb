@@ -1,0 +1,81 @@
+---
+import { routes, useTranslations, type Lang } from '../../i18n/utils';
+import Icon from '../Icon.astro';
+import LangToggle from '../LangToggle.astro';
+import ThemeToggle from '../ThemeToggle.astro';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).case;
+---
+
+<header class="case-header">
+	<div class="container case-header__bar">
+		<a class="case-header__back" href={`${routes.home[lang]}#proyectos`}>
+			<Icon name="arrow-left" size={16} />
+			{t.back}
+		</a>
+		<div class="case-header__actions">
+			<span class="case-header__crumb">{t.crumb}</span>
+			<LangToggle lang={lang} route="explosive" />
+			<ThemeToggle lang={lang} />
+		</div>
+	</div>
+</header>
+
+<style>
+	.case-header {
+		border-bottom: 1px solid var(--line);
+	}
+
+	.case-header__bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		height: 88px;
+	}
+
+	.case-header__back {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		color: var(--text-2);
+		font-weight: 500;
+		font-size: 15px;
+		text-decoration: none;
+	}
+
+	.case-header__back:hover {
+		color: var(--text);
+	}
+
+	.case-header__actions {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+	}
+
+	.case-header__crumb {
+		font-family: var(--font-mono-stack);
+		font-size: 13px;
+		color: var(--muted);
+	}
+
+	@media (max-width: 899px) {
+		.case-header__bar {
+			height: 68px;
+		}
+
+		.case-header__actions {
+			gap: 8px;
+		}
+
+		.case-header__crumb {
+			display: none;
+		}
+	}
+</style>

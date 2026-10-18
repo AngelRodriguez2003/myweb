@@ -1,0 +1,49 @@
+---
+import { useTranslations, type Lang } from '../i18n/utils';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+	lang: Lang;
+}
+
+const t = useTranslations(Astro.props.lang).about;
+---
+
+<section id="sobre-mi" class="container section about" aria-labelledby="about-title">
+	<SectionHeading id="about-title" label={t.label} title={t.title} />
+	<div class="about__body">
+		{t.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+	</div>
+</section>
+
+<style>
+	.about {
+		display: grid;
+		grid-template-columns: 1fr 1.2fr;
+		gap: 72px;
+		padding-top: clamp(48px, 27px + 5.5vw, 112px);
+	}
+
+	.about__body {
+		display: flex;
+		flex-direction: column;
+		gap: 22px;
+		padding-top: 40px;
+		font-size: var(--fs-body);
+		line-height: 1.65;
+		color: var(--text-3);
+	}
+
+	@media (max-width: 1023px) {
+		.about {
+			grid-template-columns: 1fr;
+			gap: 24px;
+		}
+
+		.about__body {
+			padding-top: 0;
+			gap: 18px;
+			line-height: 1.6;
+		}
+	}
+</style>

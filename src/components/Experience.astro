@@ -1,0 +1,166 @@
+---
+import { useTranslations, type Lang } from '../i18n/utils';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+	lang: Lang;
+}
+
+const t = useTranslations(Astro.props.lang).experience;
+---
+
+<section id="experiencia" class="container section experience" aria-labelledby="experience-title">
+	<SectionHeading id="experience-title" label={t.label} title={t.title} />
+	{
+		t.jobs.map((job) => (
+			<article class="job">
+				<div class="job__meta">
+					<span class="job__dates">
+						{job.dates}
+						<span class="job__duration-inline"> · {job.duration}</span>
+					</span>
+					<span class="job__company">{job.company}</span>
+					<span class="job__kind">{job.kind}</span>
+					<span class="job__kind job__duration">{job.duration}</span>
+				</div>
+				<div class="job__body">
+					<h3 class="job__role">{job.role}</h3>
+					<p class="job__summary">{job.summary}</p>
+					<ul class="job__bullets">
+						{job.bullets.map((bullet) => (
+							<li>{bullet}</li>
+						))}
+					</ul>
+				</div>
+			</article>
+		))
+	}
+</section>
+
+<style>
+	.experience {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(28px, 20px + 2vw, 48px);
+	}
+
+	.job {
+		display: grid;
+		grid-template-columns: 300px 1fr;
+		gap: 56px;
+		padding: 44px;
+		border-radius: var(--radius-lg);
+		background: var(--surface);
+		border: 1px solid var(--line-2);
+	}
+
+	.job__meta {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+	}
+
+	.job__dates {
+		font-family: var(--font-mono-stack);
+		font-size: 13px;
+		color: var(--muted);
+	}
+
+	.job__duration-inline {
+		display: none;
+	}
+
+	.job__company {
+		font-family: var(--font-display-stack);
+		font-weight: 800;
+		font-size: clamp(32px, 28px + 1vw, 44px);
+		line-height: 1;
+		letter-spacing: -0.02em;
+	}
+
+	.job__kind {
+		font-size: 16px;
+		color: var(--muted);
+	}
+
+	.job__body {
+		display: flex;
+		flex-direction: column;
+		gap: 22px;
+	}
+
+	.job__role {
+		font-family: var(--font-display-stack);
+		font-weight: 700;
+		font-size: clamp(22px, 20px + 0.57vw, 28px);
+		line-height: 1.2;
+	}
+
+	.job__summary {
+		font-size: 18px;
+		line-height: 1.6;
+		color: var(--text-3);
+	}
+
+	.job__bullets {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+		padding: 0;
+		list-style: none;
+		font-size: 17px;
+		line-height: 1.55;
+		color: var(--text-3);
+	}
+
+	.job__bullets li {
+		position: relative;
+		padding-left: 21px;
+	}
+
+	.job__bullets li::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 10px;
+		width: 7px;
+		height: 7px;
+		border-radius: 2px;
+		background: var(--accent-ink);
+	}
+
+	@media (max-width: 1023px) {
+		.job {
+			grid-template-columns: 1fr;
+			gap: 24px;
+			padding: clamp(20px, 10px + 2.6vw, 44px);
+		}
+
+		.job__meta {
+			gap: 8px;
+		}
+
+		.job__duration {
+			display: none;
+		}
+
+		.job__duration-inline {
+			display: inline;
+		}
+	}
+
+	@media (max-width: 719px) {
+		.job__body {
+			gap: 16px;
+		}
+
+		.job__summary,
+		.job__bullets {
+			font-size: 16px;
+		}
+
+		.job__bullets {
+			gap: 12px;
+		}
+	}
+</style>

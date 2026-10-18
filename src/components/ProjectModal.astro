@@ -1,0 +1,507 @@
+---
+import { Image } from 'astro:assets';
+import { explosive } from '../data/explosive';
+import { routes, useTranslations, type Lang } from '../i18n/utils';
+import BrowserFrame from './devices/BrowserFrame.astro';
+import PhoneFrame from './devices/PhoneFrame.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+	lang: Lang;
+	id: string;
+}
+
+const { lang, id } = Astro.props;
+const t = useTranslations(lang);
+const m = t.projects.modal;
+const p = t.explosive;
+
+const views = [
+	{ key: 'web', label: m.web, shots: explosive.web },
+	{ key: 'mobile', label: m.mobile, shots: explosive.mobile },
+] as const;
+
+const altFor = (title: string) => `${m.screenshotOf}: ${title}`;
+---
+
+<dialog class="modal" id={id} aria-labelledby={`${id}-title`}>
+	<div class="modal__inner" data-view="web" data-idx="0">
+		<div class="modal__header">
+			<div class="modal__heading">
+				<h3 class="modal__title" id={`${id}-title`}>Project Explosive</h3>
+				<span class="modal__stack">{p.stack}</span>
+			</div>
+			<button type="button" class="icon-btn" data-close aria-label={m.close}>
+				<Icon name="close" />
+			</button>
+		</div>
+
+		<div class="modal__grid">
+			<div class="modal__media">
+				<div class="modal__tabs" role="tablist" aria-label={m.view}>
+					{
+						views.map((view) => (
+							<button
+								type="button"
+								role="tab"
+								class="modal__tab"
+								id={`${id}-tab-${view.key}`}
+								aria-controls={`${id}-panel-${view.key}`}
+								aria-selected="false"
+								data-tab={view.key}
+							>
+								{view.label}
+							</button>
+						))
+					}
+				</div>
+
+				{
+					views.map((view) => (
+						<div
+							class="modal__panel"
+							role="tabpanel"
+							id={`${id}-panel-${view.key}`}
+							aria-labelledby={`${id}-tab-${view.key}`}
+							data-panel={view.key}
+						>
+							<div class="modal__stage">
+								{view.key === 'web' ? (
+									<BrowserFrame class="modal__browser" url={explosive.liveHost}>
+										{view.shots.map((shot, i) => (
+											<Image
+												src={shot.image}
+												alt={altFor(p.screens[shot.id].title)}
+												widths={[480, 800, 1200, 1600]}
+												sizes="(max-width: 899px) 90vw, 736px"
+												data-shot={i}
+												style="aspect-ratio: 736 / 420"
+											/>
+										))}
+									</BrowserFrame>
+								) : (
+									view.shots.map((shot, i) => (
+										<div class="modal__phone" data-shot={i}>
+											<PhoneFrame
+												image={shot.image}
+												alt={altFor(p.screens[shot.id].title)}
+												sizes="216px"
+											/>
+										</div>
+									))
+								)}
+							</div>
+
+							<div class="modal__footer">
+								<div class="modal__caption" aria-live="polite">
+									{view.shots.map((shot, i) => (
+										<div data-shot={i}>
+											<span class="modal__caption-title">{p.screens[shot.id].title}</span>
+											<span class="modal__caption-desc">{p.screens[shot.id].desc}</span>
+										</div>
+									))}
+								</div>
+								{view.shots.length > 1 && (
+									<div class="modal__thumbs">
+										{view.shots.map((shot, i) => (
+											<button
+												type="button"
+												class:list={['modal__thumb', `modal__thumb--${view.key}`]}
+												data-pick={i}
+												aria-label={`${m.show} ${p.screens[shot.id].title}`}
+											>
+												<Image src={shot.image} alt="" widths={[90, 180]} sizes={view.key === 'web' ? '90px' : '30px'} />
+											</button>
+										))}
+									</div>
+								)}
+							</div>
+						</div>
+					))
+				}
+			</div>
+
+			<div class="modal__info">
+				<p class="modal__intro">{p.intro}</p>
+				<div class="modal__list">
+					<span class="modal__list-label">{m.what}</span>
+					<ul>{p.what.map((item) => <li>{item}</li>)}</ul>
+				</div>
+				<div class="modal__list">
+					<span class="modal__list-label">{m.how}</span>
+					<ul>{p.how.map((item) => <li>{item}</li>)}</ul>
+				</div>
+				<div class="modal__ctas">
+					<a class="btn btn--primary" href={explosive.liveUrl} rel="noopener" target="_blank">{m.tryWeb}</a>
+					<a class="btn btn--ghost" href={routes.explosive[lang]}>{m.fullCase}</a>
+					<a class="btn modal__code" href={explosive.repoUrl} rel="noopener" target="_blank">{m.code}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</dialog>
+
+<style>
+	.modal {
+		width: min(1200px, 100% - 2 * var(--gutter));
+		max-width: none;
+		max-height: calc(100dvh - 48px);
+		padding: 0;
+		border-radius: 24px;
+		background: var(--surface-2);
+		border: 1px solid var(--line-3);
+		color: var(--text);
+		overflow: auto;
+		overscroll-behavior: contain;
+	}
+
+	.modal::backdrop {
+		background: var(--overlay);
+	}
+
+	.modal__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 16px;
+		padding: 24px 32px;
+		border-bottom: 1px solid var(--line-2);
+	}
+
+	.modal__heading {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		column-gap: 16px;
+		row-gap: 4px;
+	}
+
+	.modal__title {
+		font-family: var(--font-display-stack);
+		font-weight: 800;
+		font-size: clamp(24px, 22px + 0.76vw, 32px);
+		letter-spacing: -0.015em;
+	}
+
+	.modal__stack {
+		font-family: var(--font-mono-stack);
+		font-size: 13px;
+		color: var(--muted);
+	}
+
+	.modal__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+	}
+
+	.modal__media {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		padding: 28px 32px 32px;
+		background: var(--w-surface);
+		border-right: 1px solid var(--line-2);
+	}
+
+	.modal__tabs {
+		display: flex;
+		align-self: flex-start;
+		gap: 2px;
+		padding: 4px;
+		border: 1px solid var(--w-line-2);
+		border-radius: 999px;
+	}
+
+	.modal__tab {
+		height: 36px;
+		padding: 0 18px;
+		border: none;
+		border-radius: 999px;
+		background: transparent;
+		color: var(--w-muted);
+		font-family: var(--font-mono-stack);
+		font-size: 12px;
+		cursor: pointer;
+	}
+
+	.modal__tab[aria-selected='true'] {
+		background: var(--w-tab-bg);
+		color: var(--w-tab-fg);
+	}
+
+	.modal__panel {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.modal__panel[hidden] {
+		display: none;
+	}
+
+	.modal__stage {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 470px;
+	}
+
+	.modal__stage :global(.modal__browser) {
+		width: 100%;
+		max-width: 736px;
+	}
+
+	.modal__phone {
+		width: 216px;
+	}
+
+	/* Only the active screenshot / caption of the active view is visible. */
+	.modal :global([data-shot]:not(.is-active)) {
+		display: none !important;
+	}
+
+	.modal__footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 16px;
+	}
+
+	.modal__caption > div {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.modal__caption-title {
+		font-family: var(--font-display-stack);
+		font-weight: 700;
+		font-size: 18px;
+		color: var(--w-text);
+	}
+
+	.modal__caption-desc {
+		font-size: 14px;
+		color: var(--w-muted);
+	}
+
+	.modal__thumbs {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+		gap: 8px;
+	}
+
+	.modal__thumb {
+		height: 56px;
+		padding: 0;
+		border: 2px solid transparent;
+		border-radius: var(--radius-sm);
+		background: var(--w-bg);
+		overflow: hidden;
+		cursor: pointer;
+		opacity: 0.55;
+		transition: opacity 0.15s ease;
+	}
+
+	.modal__thumb:hover {
+		opacity: 0.85;
+	}
+
+	.modal__thumb[aria-current='true'] {
+		border-color: var(--w-accent);
+		opacity: 1;
+	}
+
+	.modal__thumb--web {
+		width: 90px;
+	}
+
+	.modal__thumb--mobile {
+		width: 30px;
+	}
+
+	.modal__thumb :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: top;
+	}
+
+	.modal__info {
+		display: flex;
+		flex-direction: column;
+		gap: 22px;
+		padding: 28px 32px 32px;
+	}
+
+	.modal__intro {
+		font-size: 16px;
+		line-height: 1.6;
+		color: var(--text-3);
+	}
+
+	.modal__list {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.modal__list-label {
+		font-family: var(--font-mono-stack);
+		font-size: 12px;
+		color: var(--accent-ink);
+	}
+
+	.modal__list ul {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		padding-left: 18px;
+		font-size: 15px;
+		line-height: 1.5;
+		color: var(--text-3);
+	}
+
+	.modal__ctas {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		margin-top: auto;
+	}
+
+	.modal__ctas .btn {
+		height: 48px;
+		font-size: 15px;
+	}
+
+	.modal__ctas .modal__code {
+		height: 44px;
+		color: var(--text-4);
+	}
+
+	.modal__ctas .modal__code:hover {
+		color: var(--text);
+	}
+
+	@media (max-width: 899px) {
+		.modal {
+			width: 100%;
+			max-height: 100dvh;
+			height: 100dvh;
+			margin: 0;
+			border-radius: 0;
+			border: 0;
+		}
+
+		.modal__header {
+			position: sticky;
+			top: 0;
+			z-index: 1;
+			padding: 16px 20px;
+			background: var(--surface-2);
+		}
+
+		.modal__grid {
+			grid-template-columns: 1fr;
+		}
+
+		.modal__media {
+			padding: 20px;
+			border-right: 0;
+			border-bottom: 1px solid var(--line-2);
+		}
+
+		.modal__stage {
+			height: auto;
+			min-height: 452px;
+		}
+
+		.modal__phone {
+			width: 200px;
+		}
+
+		.modal__footer {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.modal__thumbs {
+			justify-content: flex-start;
+		}
+
+		.modal__thumb--web {
+			width: 72px;
+		}
+
+		.modal__thumb--mobile {
+			width: 24px;
+		}
+
+		.modal__info {
+			padding: 20px 20px 32px;
+		}
+	}
+</style>
+
+<script>
+	type View = 'web' | 'mobile';
+
+	for (const dialog of document.querySelectorAll<HTMLDialogElement>('dialog.modal')) {
+		const inner = dialog.querySelector<HTMLElement>('.modal__inner')!;
+		const tabs = [...dialog.querySelectorAll<HTMLButtonElement>('[data-tab]')];
+		const panels = [...dialog.querySelectorAll<HTMLElement>('[data-panel]')];
+
+		const show = (view: View, idx: number) => {
+			inner.dataset.view = view;
+			for (const tab of tabs) {
+				const active = tab.dataset.tab === view;
+				tab.setAttribute('aria-selected', String(active));
+				tab.tabIndex = active ? 0 : -1;
+			}
+			for (const panel of panels) {
+				const active = panel.dataset.panel === view;
+				panel.hidden = !active;
+				if (!active) continue;
+				const count = panel.querySelectorAll('.modal__caption [data-shot]').length;
+				const current = Math.min(idx, count - 1);
+				panel.querySelectorAll<HTMLElement>('[data-shot]').forEach((el) => {
+					el.classList.toggle('is-active', Number(el.dataset.shot) === current);
+				});
+				panel.querySelectorAll<HTMLElement>('[data-pick]').forEach((el) => {
+					el.setAttribute('aria-current', String(Number(el.dataset.pick) === current));
+				});
+			}
+		};
+
+		for (const tab of tabs) {
+			tab.addEventListener('click', () => show(tab.dataset.tab as View, 0));
+			tab.addEventListener('keydown', (event) => {
+				if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+				const next = tabs[(tabs.indexOf(tab) + 1) % tabs.length];
+				show(next.dataset.tab as View, 0);
+				next.focus();
+			});
+		}
+
+		dialog.querySelectorAll<HTMLButtonElement>('[data-pick]').forEach((button) => {
+			button.addEventListener('click', () => show(inner.dataset.view as View, Number(button.dataset.pick)));
+		});
+
+		dialog.querySelector('[data-close]')?.addEventListener('click', () => dialog.close());
+		dialog.addEventListener('click', (event) => {
+			if (event.target === dialog) dialog.close();
+		});
+
+		document.querySelectorAll<HTMLButtonElement>(`[data-open-modal="${dialog.id}"]`).forEach((opener) => {
+			opener.addEventListener('click', () => {
+				// Desktop opens on the web view; small screens open on the mobile view (as in the design).
+				const small = window.matchMedia('(max-width: 899px)').matches;
+				show(small ? 'mobile' : 'web', small ? 1 : 0);
+				dialog.showModal();
+			});
+		});
+
+		show('web', 0);
+	}
+</script>

@@ -1,0 +1,55 @@
+---
+import { Font } from 'astro:assets';
+import { routes, useTranslations, type Lang, type RouteId } from '../i18n/utils';
+import '../styles/global.css';
+
+interface Props {
+	lang: Lang;
+	route: RouteId;
+	title: string;
+	description: string;
+}
+
+const { lang, route, title, description } = Astro.props;
+const t = useTranslations(lang);
+const alternates = routes[route];
+const canonical = Astro.site ? new URL(alternates[lang], Astro.site).href : undefined;
+---
+
+<html lang={lang} data-theme="dark">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="theme-color" content="#111210" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" sizes="32x32" />
+		{canonical && <link rel="canonical" href={canonical} />}
+		{
+			Object.entries(alternates).map(([code, path]) => (
+				<link rel="alternate" hreflang={code} href={Astro.site ? new URL(path, Astro.site).href : path} />
+			))
+		}
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:locale" content={lang === 'es' ? 'es_CO' : 'en_US'} />
+		{canonical && <meta property="og:url" content={canonical} />}
+
+		<script is:inline>
+			try {
+				if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light';
+			} catch {}
+		</script>
+
+		<Font cssVariable="--font-display" preload />
+		<Font cssVariable="--font-body" preload />
+		<Font cssVariable="--font-mono" />
+	</head>
+	<body>
+		<a class="skip-link" href="#main">{t.a11y.skip}</a>
+		<slot />
+	</body>
+</html>

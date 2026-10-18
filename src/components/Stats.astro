@@ -1,0 +1,100 @@
+---
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+	lang: Lang;
+}
+
+const stats = useTranslations(Astro.props.lang).stats;
+---
+
+<div class="container">
+	<dl class="stats">
+		{
+			stats.map((stat) => (
+				<div class="stat">
+					<dt class="stat__label">{stat.label}</dt>
+					<dd class="stat__value">{stat.value}</dd>
+				</div>
+			))
+		}
+	</dl>
+</div>
+
+<style>
+	.stats {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		border-block: 1px solid var(--line-2);
+	}
+
+	.stat {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding: 32px 28px;
+	}
+
+	.stat:first-child {
+		padding-left: 0;
+	}
+
+	.stat:last-child {
+		padding-right: 0;
+	}
+
+	.stat + .stat {
+		border-left: 1px solid var(--line-2);
+	}
+
+	.stat__value {
+		order: -1;
+		font-family: var(--font-display-stack);
+		font-weight: 700;
+		font-size: clamp(26px, 21px + 1.33vw, 40px);
+		line-height: 1.1;
+	}
+
+	.stat__label {
+		font-size: 15px;
+		color: var(--muted);
+	}
+
+	@media (max-width: 1023px) {
+		.stats {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.stat,
+		.stat:first-child,
+		.stat:last-child {
+			padding: 24px 20px;
+		}
+
+		.stat:nth-child(odd) {
+			padding-left: 0;
+			border-left: 0;
+		}
+
+		.stat:nth-child(n + 3) {
+			border-top: 1px solid var(--line-2);
+		}
+	}
+
+	@media (max-width: 719px) {
+		.stat,
+		.stat:first-child,
+		.stat:last-child {
+			gap: 6px;
+			padding: 20px 16px;
+		}
+
+		.stat:nth-child(odd) {
+			padding-left: 0;
+		}
+
+		.stat__label {
+			font-size: 13px;
+		}
+	}
+</style>

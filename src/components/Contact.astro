@@ -1,0 +1,76 @@
+---
+import { site } from '../data/site';
+import { useTranslations, type Lang } from '../i18n/utils';
+import Icon from './Icon.astro';
+
+interface Props {
+	lang: Lang;
+}
+
+const t = useTranslations(Astro.props.lang).contact;
+---
+
+<section id="contacto" class="container section contact" aria-labelledby="contact-title">
+	<span class="section-label">{t.label}</span>
+	<h2 class="contact__title" id="contact-title">{t.title[0]}<br />{t.title[1]}</h2>
+	<p class="contact__body">{t.body}</p>
+	<div class="contact__links">
+		<a class="btn btn--primary contact__email" href={`mailto:${site.email}`}>
+			<Icon name="mail" />
+			{site.email}
+		</a>
+		<a class="btn btn--ghost" href={site.linkedin} rel="noopener" target="_blank">LinkedIn<Icon name="arrow-up-right" size={16} /></a>
+		<a class="btn btn--ghost" href={site.github} rel="noopener" target="_blank">GitHub<Icon name="arrow-up-right" size={16} /></a>
+	</div>
+</section>
+
+<style>
+	.contact {
+		display: flex;
+		flex-direction: column;
+		gap: 32px;
+	}
+
+	.contact__title {
+		font-family: var(--font-display-stack);
+		font-weight: 800;
+		font-size: var(--fs-display);
+		line-height: 0.95;
+		letter-spacing: -0.03em;
+	}
+
+	.contact__body {
+		max-width: 620px;
+		font-size: var(--fs-lead);
+		line-height: 1.55;
+		color: var(--text-4);
+	}
+
+	.contact__links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 14px;
+	}
+
+	.contact__links .btn {
+		height: 52px;
+		padding: 0 24px;
+	}
+
+	@media (max-width: 719px) {
+		.contact {
+			gap: 22px;
+		}
+
+		.contact__links {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 12px;
+		}
+
+		.contact__email {
+			grid-column: 1 / -1;
+			overflow-wrap: anywhere;
+		}
+	}
+</style>

@@ -1,0 +1,226 @@
+---
+import { useTranslations, type Lang } from '../i18n/utils';
+import Icon from './Icon.astro';
+import TerminalCard from './TerminalCard.astro';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).hero;
+---
+
+<section id="inicio" class="container hero">
+	<div class="hero__intro">
+		<div class="hero__status">
+			<span class="hero__dot" aria-hidden="true"></span>
+			<span class="hero__status-long">{t.status}</span>
+			<span class="hero__status-short">{t.statusShort}</span>
+		</div>
+
+		{/* Placeholder until the profile photo exists (src/assets/profile/). */}
+		<div class="avatar avatar--inline" aria-hidden="true"><span>AR</span></div>
+
+		<h1 class="hero__name">Angel<br />Rodriguez</h1>
+		<p class="hero__role">{t.role}</p>
+		<p class="hero__lead">{t.lead}</p>
+
+		<div class="hero__ctas">
+			<a class="btn btn--primary" href="#proyectos">{t.ctaProjects}<Icon name="arrow" /></a>
+			<a class="btn btn--ghost" href="#contacto">{t.ctaContact}</a>
+		</div>
+	</div>
+
+	<div class="hero__aside">
+		<div class="hero__profile">
+			<div class="avatar" aria-hidden="true"><span>AR</span></div>
+			<p class="hero__stack">
+				{
+					t.stack.map((line, i) => (
+						<>
+							{i > 0 && <br />}
+							{line}
+						</>
+					))
+				}
+			</p>
+		</div>
+		<TerminalCard lang={lang} />
+	</div>
+</section>
+
+<style>
+	.hero {
+		display: grid;
+		grid-template-columns: 1.25fr 1fr;
+		gap: 72px;
+		padding-top: clamp(44px, 28px + 4vw, 104px);
+		padding-bottom: clamp(40px, 26px + 3.5vw, 88px);
+	}
+
+	.hero__intro {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 28px;
+	}
+
+	.hero__status {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		height: 38px;
+		padding: 0 16px;
+		border: 1px solid var(--line-3);
+		border-radius: 999px;
+		font-family: var(--font-mono-stack);
+		font-size: 13px;
+		color: var(--text-2);
+	}
+
+	.hero__dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--accent);
+	}
+
+	.hero__status-short {
+		display: none;
+	}
+
+	.hero__name {
+		font-family: var(--font-display-stack);
+		font-weight: 800;
+		font-size: var(--fs-h1);
+		line-height: 0.92;
+		letter-spacing: -0.03em;
+	}
+
+	.hero__role {
+		margin-top: -4px;
+		font-family: var(--font-display-stack);
+		font-weight: 500;
+		font-size: clamp(22px, 19px + 0.77vw, 30px);
+		color: var(--accent-ink);
+	}
+
+	.hero__lead {
+		max-width: 560px;
+		font-size: var(--fs-lead);
+		line-height: 1.55;
+		color: var(--text-4);
+	}
+
+	.hero__ctas {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 14px;
+		margin-top: 8px;
+	}
+
+	.hero__aside {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.hero__profile {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+	}
+
+	.avatar {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		width: 132px;
+		height: 132px;
+		border-radius: 28px;
+		background: var(--surface-3);
+		border: 1px dashed var(--line-dash);
+		font-family: var(--font-display-stack);
+		font-weight: 800;
+		font-size: 44px;
+		color: var(--placeholder);
+	}
+
+	.avatar--inline {
+		display: none;
+	}
+
+	.hero__stack {
+		font-family: var(--font-mono-stack);
+		font-size: 13px;
+		line-height: 1.6;
+		color: var(--faint);
+	}
+
+	@media (max-width: 1023px) {
+		.hero {
+			grid-template-columns: 1fr;
+			gap: 40px;
+		}
+
+		.hero__aside {
+			max-width: 560px;
+		}
+	}
+
+	@media (max-width: 719px) {
+		.hero {
+			gap: 22px;
+		}
+
+		.hero__intro {
+			gap: 22px;
+		}
+
+		.hero__status {
+			height: 34px;
+			padding: 0 14px;
+			font-size: 11px;
+		}
+
+		.hero__status-long {
+			display: none;
+		}
+
+		.hero__status-short {
+			display: inline;
+		}
+
+		.avatar--inline {
+			display: flex;
+			width: 88px;
+			height: 88px;
+			border-radius: 22px;
+			font-size: 30px;
+		}
+
+		.hero__profile {
+			display: none;
+		}
+
+		.hero__name {
+			letter-spacing: -2px;
+		}
+
+		.hero__role {
+			margin-top: -8px;
+		}
+
+		.hero__ctas {
+			flex-direction: column;
+			align-self: stretch;
+			gap: 12px;
+		}
+
+		.hero__ctas .btn {
+			width: 100%;
+		}
+	}
+</style>

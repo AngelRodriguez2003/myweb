@@ -1,0 +1,121 @@
+---
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+	lang: Lang;
+}
+
+const t = useTranslations(Astro.props.lang).hero.terminal;
+
+const steps = [
+	{ label: 'lint + typecheck', status: t.passed },
+	{ label: 'eas build · ios', status: t.passed },
+	{ label: 'eas build · android', status: t.passed },
+];
+---
+
+<div class="terminal">
+	<div class="terminal__bar">
+		<div class="terminal__dots" aria-hidden="true"><span></span><span></span><span></span></div>
+		<span class="terminal__file">deploy.yml</span>
+	</div>
+	<div class="terminal__body">
+		<div class="terminal__muted">$ git push origin main</div>
+		{
+			steps.map((step) => (
+				<div class="terminal__row">
+					<span>
+						<span class="terminal__ok" aria-hidden="true">✓</span> {step.label}
+					</span>
+					<span class="terminal__muted">{step.status}</span>
+				</div>
+			))
+		}
+		<div class="terminal__row terminal__warn">
+			<span><span aria-hidden="true">→</span> eas update · production</span>
+			<span>{t.published}</span>
+		</div>
+		<div class="terminal__done">{t.done}</div>
+	</div>
+</div>
+
+<style>
+	.terminal {
+		border-radius: var(--radius-md);
+		background: var(--surface);
+		border: 1px solid var(--line-2);
+		overflow: hidden;
+	}
+
+	.terminal__bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		height: 44px;
+		padding: 0 18px;
+		border-bottom: 1px solid var(--line-2);
+	}
+
+	.terminal__dots {
+		display: flex;
+		gap: 8px;
+	}
+
+	.terminal__dots span {
+		width: 11px;
+		height: 11px;
+		border-radius: 50%;
+		background: var(--dot);
+	}
+
+	.terminal__file {
+		font-family: var(--font-mono-stack);
+		font-size: 12px;
+		color: var(--faint);
+	}
+
+	.terminal__body {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		padding: 22px 22px 26px;
+		font-family: var(--font-mono-stack);
+		font-size: 14px;
+	}
+
+	.terminal__row {
+		display: flex;
+		justify-content: space-between;
+		gap: 12px;
+	}
+
+	.terminal__muted {
+		color: var(--faint);
+	}
+
+	.terminal__ok {
+		color: var(--accent-ink);
+		margin-right: 0.6em;
+	}
+
+	.terminal__warn {
+		color: var(--warn);
+	}
+
+	.terminal__warn span[aria-hidden] {
+		margin-right: 0.6em;
+	}
+
+	.terminal__done {
+		margin-top: 6px;
+		color: var(--text-4);
+	}
+
+	@media (max-width: 719px) {
+		.terminal__body {
+			gap: 10px;
+			padding: 18px;
+			font-size: 12px;
+		}
+	}
+</style>

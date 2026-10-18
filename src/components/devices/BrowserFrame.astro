@@ -1,0 +1,73 @@
+---
+interface Props {
+	/** Shows a fake address bar with this host. */
+	url?: string;
+	class?: string;
+}
+
+const { url, class: className } = Astro.props;
+---
+
+<div class:list={['browser', className]}>
+	<div class="browser__bar">
+		<div class="browser__dots" aria-hidden="true"><span></span><span></span><span></span></div>
+		{url && <span class="browser__url">{url}</span>}
+	</div>
+	<div class="browser__screen"><slot /></div>
+</div>
+
+<style>
+	.browser {
+		border-radius: var(--radius);
+		background: var(--w-surface-2);
+		border: 1px solid var(--w-line-2);
+		overflow: hidden;
+	}
+
+	.browser__bar {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		height: 30px;
+		padding: 0 12px;
+	}
+
+	.browser__dots {
+		display: flex;
+		gap: 7px;
+	}
+
+	.browser__dots span {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--w-line-3);
+	}
+
+	.browser__url {
+		flex-grow: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 22px;
+		border-radius: 6px;
+		background: var(--w-surface);
+		font-family: var(--font-mono-stack);
+		font-size: 11px;
+		color: var(--w-muted);
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
+	.browser:has(.browser__url) .browser__bar {
+		height: 36px;
+	}
+
+	.browser__screen :global(img) {
+		display: block;
+		width: 100%;
+		height: auto;
+		object-fit: cover;
+		object-position: top;
+	}
+</style>

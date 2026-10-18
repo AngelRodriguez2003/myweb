@@ -1,0 +1,145 @@
+---
+import { Image } from 'astro:assets';
+import { explosive } from '../data/explosive';
+import { useTranslations, type Lang } from '../i18n/utils';
+import BrowserFrame from './devices/BrowserFrame.astro';
+import PhoneFrame from './devices/PhoneFrame.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+	lang: Lang;
+	/** id of the <dialog> opened by "Ver detalles". */
+	modalId: string;
+}
+
+const { lang, modalId } = Astro.props;
+const t = useTranslations(lang);
+const p = t.explosive;
+---
+
+<article class="project-card">
+	<div class="project-card__media">
+		<BrowserFrame class="project-card__browser">
+			<Image
+				src={explosive.cover.web}
+				alt={p.browserAlt}
+				widths={[400, 600, 1000]}
+				sizes="(max-width: 719px) 75vw, (max-width: 1023px) 70vw, 500px"
+				style="aspect-ratio: 500 / 312"
+			/>
+		</BrowserFrame>
+		<PhoneFrame
+			class="project-card__phone"
+			image={explosive.cover.mobile}
+			alt={p.phoneAlt}
+			sizes="(max-width: 719px) 26vw, 150px"
+		/>
+	</div>
+	<div class="project-card__body">
+		<ul class="project-card__chips">
+			{p.chips.map((chip) => <li class="chip">{chip}</li>)}
+		</ul>
+		<h3 class="project-card__title">Project Explosive</h3>
+		<p class="project-card__text">{p.tagline}</p>
+		<div class="project-card__actions">
+			<button type="button" class="btn btn--primary btn--sm" data-open-modal={modalId} aria-haspopup="dialog">
+				{t.projects.details}
+			</button>
+			<a class="btn btn--ghost btn--sm" href={explosive.liveUrl} rel="noopener" target="_blank">
+				{t.projects.try}<Icon name="arrow-up-right" size={16} />
+			</a>
+		</div>
+	</div>
+</article>
+
+<style>
+	.project-card {
+		display: flex;
+		flex-direction: column;
+		border-radius: var(--radius-lg);
+		background: var(--surface);
+		border: 1px solid var(--line-2);
+		overflow: hidden;
+	}
+
+	.project-card__media {
+		position: relative;
+		aspect-ratio: 588 / 380;
+		background: var(--w-surface);
+		border-bottom: 1px solid var(--line-2);
+		overflow: hidden;
+	}
+
+	.project-card__media :global(.project-card__browser) {
+		position: absolute;
+		left: 5.4%;
+		top: 10.5%;
+		width: 85%;
+	}
+
+	.project-card__media :global(.project-card__phone) {
+		position: absolute;
+		right: 5.1%;
+		top: 15.8%;
+		width: 25.5%;
+	}
+
+	.project-card__body {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		padding: 28px 32px 32px;
+	}
+
+	.project-card__chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		padding: 0;
+		list-style: none;
+	}
+
+	.project-card__title {
+		font-family: var(--font-display-stack);
+		font-weight: 800;
+		font-size: clamp(28px, 26px + 0.57vw, 34px);
+		letter-spacing: -0.015em;
+		line-height: 1.1;
+	}
+
+	.project-card__text {
+		font-size: 17px;
+		line-height: 1.55;
+		color: var(--text-3);
+	}
+
+	.project-card__actions {
+		display: flex;
+		gap: 12px;
+		margin-top: 4px;
+	}
+
+	@media (max-width: 719px) {
+		.project-card__media :global(.project-card__browser) {
+			width: 74%;
+		}
+
+		.project-card__body {
+			gap: 14px;
+			padding: 20px;
+		}
+
+		.project-card__text {
+			font-size: 16px;
+		}
+
+		.project-card__actions {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+		}
+
+		.project-card__actions .btn {
+			padding: 0 12px;
+		}
+	}
+</style>

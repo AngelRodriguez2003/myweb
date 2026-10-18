@@ -1,0 +1,55 @@
+---
+import CaseHeader from '../components/case/CaseHeader.astro';
+import CaseHero from '../components/case/CaseHero.astro';
+import CaseSections from '../components/case/CaseSections.astro';
+import Footer from '../components/Footer.astro';
+import { useTranslations, type Lang } from '../i18n/utils';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<BaseLayout lang={lang} route="explosive" title={t.meta.caseTitle} description={t.meta.caseDescription}>
+	<div class="case">
+		<CaseHeader lang={lang} />
+		<main id="main">
+			<CaseHero lang={lang} />
+			<CaseSections lang={lang} />
+		</main>
+		<Footer lang={lang} />
+	</div>
+</BaseLayout>
+
+<style is:global>
+	/* The case study uses the warm "forja" palette: remap the portfolio tokens onto it. */
+	body:has(.case) {
+		background: var(--w-bg);
+	}
+
+	.case {
+		--bg: var(--w-bg);
+		--surface: var(--w-surface);
+		--surface-2: var(--w-surface);
+		--line: var(--w-line);
+		--line-2: var(--w-line);
+		--line-3: var(--w-line-2);
+		--line-4: var(--w-line-3);
+		--text: var(--w-text);
+		--text-2: var(--w-text-2);
+		--text-3: var(--w-text-2);
+		--text-4: var(--w-text-2);
+		--muted: var(--w-muted);
+		--faint: var(--w-muted);
+		--accent: var(--w-accent);
+		--accent-ink: var(--w-accent-ink);
+		--on-accent: var(--w-on-accent);
+
+		background: var(--bg);
+		color: var(--text);
+	}
+</style>

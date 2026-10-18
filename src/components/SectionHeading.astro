@@ -1,0 +1,28 @@
+---
+interface Props {
+	label: string;
+	title: string;
+	id?: string;
+}
+
+const { label, title, id } = Astro.props;
+---
+
+<div class="heading">
+	<span class="section-label">{label}</span>
+	<h2 class="section-title" id={id}>{title}</h2>
+</div>
+
+<style>
+	.heading {
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+	}
+
+	@media (max-width: 719px) {
+		.heading {
+			gap: 12px;
+		}
+	}
+</style>

@@ -1,0 +1,178 @@
+---
+import { explosive } from '../../data/explosive';
+import { useTranslations, type Lang } from '../../i18n/utils';
+import PhoneFrame from '../devices/PhoneFrame.astro';
+import Icon from '../Icon.astro';
+
+interface Props {
+	lang: Lang;
+}
+
+const t = useTranslations(Astro.props.lang).case;
+const [left, center, right] = explosive.hero;
+---
+
+<section class="container case-hero">
+	<div class="case-hero__top">
+		<div class="case-hero__intro">
+			<ul class="case-hero__chips">
+				{t.chips.map((chip) => <li class="chip">{chip}</li>)}
+			</ul>
+			<h1 class="case-hero__title">Project<br />Explosive</h1>
+			<p class="case-hero__lead">{t.lead}</p>
+			<div class="case-hero__ctas">
+				<a class="btn btn--primary" href={explosive.liveUrl} rel="noopener" target="_blank">
+					{t.tryWeb}<Icon name="arrow-up-right" size={16} />
+				</a>
+				<a class="btn btn--ghost" href={explosive.repoUrl} rel="noopener" target="_blank">{t.code}</a>
+			</div>
+		</div>
+		<dl class="case-hero__facts">
+			{
+				t.facts.map((fact) => (
+					<div>
+						<dt>{fact.term}</dt>
+						<dd>{fact.value}</dd>
+					</div>
+				))
+			}
+		</dl>
+	</div>
+
+	<div class="case-hero__stage">
+		<PhoneFrame class="case-hero__phone case-hero__phone--side" image={left} alt={t.heroAlts[0]} sizes="(max-width: 719px) 30vw, 290px" loading="eager" />
+		<PhoneFrame class="case-hero__phone case-hero__phone--center" image={center} alt={t.heroAlts[1]} sizes="(max-width: 719px) 36vw, 340px" loading="eager" />
+		<PhoneFrame class="case-hero__phone case-hero__phone--side" image={right} alt={t.heroAlts[2]} sizes="(max-width: 719px) 30vw, 290px" loading="eager" />
+	</div>
+</section>
+
+<style>
+	.case-hero {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(40px, 24px + 4vw, 72px);
+		padding-top: clamp(44px, 25px + 5vw, 96px);
+	}
+
+	.case-hero__top {
+		display: grid;
+		grid-template-columns: 1.3fr 1fr;
+		align-items: end;
+		gap: 72px;
+	}
+
+	.case-hero__intro {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 28px;
+	}
+
+	.case-hero__chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		padding: 0;
+		list-style: none;
+	}
+
+	.case-hero__title {
+		font-family: var(--font-display-stack);
+		font-weight: 800;
+		font-size: clamp(3.625rem, 2.36rem + 5.14vw, 7rem);
+		line-height: 0.9;
+		letter-spacing: -0.035em;
+	}
+
+	.case-hero__lead {
+		max-width: 620px;
+		font-size: clamp(17px, 15.5px + 0.38vw, 21px);
+		line-height: 1.55;
+		color: var(--text-2);
+	}
+
+	.case-hero__ctas {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 14px;
+	}
+
+	.case-hero__facts {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 28px 24px;
+	}
+
+	.case-hero__facts div {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding-top: 16px;
+		border-top: 1px solid var(--line);
+	}
+
+	.case-hero__facts dt {
+		font-family: var(--font-mono-stack);
+		font-size: 12px;
+		color: var(--muted);
+	}
+
+	.case-hero__facts dd {
+		font-size: 17px;
+		color: var(--text);
+	}
+
+	/* Three phones cropped at the bottom; the side ones sit lower. */
+	.case-hero__stage {
+		display: flex;
+		align-items: flex-start;
+		justify-content: center;
+		gap: 4%;
+		aspect-ratio: 1200 / 780;
+		padding-top: 6%;
+		border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+		background: var(--w-surface);
+		overflow: hidden;
+	}
+
+	.case-hero__stage :global(.case-hero__phone--center) {
+		flex: 0 0 28%;
+	}
+
+	.case-hero__stage :global(.case-hero__phone--side) {
+		flex: 0 0 24%;
+		margin-top: 10%;
+	}
+
+	@media (max-width: 1023px) {
+		.case-hero__top {
+			grid-template-columns: 1fr;
+			gap: 40px;
+		}
+	}
+
+	@media (max-width: 719px) {
+		.case-hero__intro {
+			gap: 22px;
+		}
+
+		.case-hero__ctas {
+			flex-direction: column;
+			align-self: stretch;
+		}
+
+		.case-hero__stage {
+			aspect-ratio: 350 / 300;
+			gap: 3%;
+			border-radius: var(--radius-md) var(--radius-md) 0 0;
+		}
+
+		.case-hero__stage :global(.case-hero__phone--center) {
+			flex-basis: 36%;
+		}
+
+		.case-hero__stage :global(.case-hero__phone--side) {
+			flex-basis: 29%;
+		}
+	}
+</style>

@@ -1,0 +1,58 @@
+---
+import { useTranslations, type Lang } from '../i18n/utils';
+import Icon from './Icon.astro';
+
+interface Props {
+	lang: Lang;
+}
+
+const t = useTranslations(Astro.props.lang);
+---
+
+<button
+	type="button"
+	class="icon-btn theme-toggle"
+	aria-label={t.a11y.themeToLight}
+	data-label-light={t.a11y.themeToLight}
+	data-label-dark={t.a11y.themeToDark}
+>
+	<Icon name="sun" class="theme-toggle__sun" />
+	<Icon name="moon" class="theme-toggle__moon" />
+</button>
+
+<style>
+	.theme-toggle :global(.theme-toggle__moon),
+	:global([data-theme='light']) .theme-toggle :global(.theme-toggle__sun) {
+		display: none;
+	}
+
+	:global([data-theme='light']) .theme-toggle :global(.theme-toggle__moon) {
+		display: block;
+	}
+</style>
+
+<script>
+	const root = document.documentElement;
+	const buttons = document.querySelectorAll<HTMLButtonElement>('.theme-toggle');
+
+	function sync() {
+		const isLight = root.dataset.theme === 'light';
+		for (const button of buttons) {
+			button.setAttribute('aria-label', (isLight ? button.dataset.labelDark : button.dataset.labelLight) ?? '');
+		}
+		document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isLight ? '#f4f3ed' : '#111210');
+	}
+
+	for (const button of buttons) {
+		button.addEventListener('click', () => {
+			const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+			root.dataset.theme = next;
+			try {
+				localStorage.setItem('theme', next);
+			} catch {}
+			sync();
+		});
+	}
+
+	sync();
+</script>
