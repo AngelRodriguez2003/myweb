@@ -157,10 +157,63 @@ const altFor = (title: string) => `${m.screenshotOf}: ${title}`;
 		color: var(--text);
 		overflow: auto;
 		overscroll-behavior: contain;
+		opacity: 0;
+		translate: 0 16px;
+		scale: 0.98;
+		transition:
+			opacity var(--dur-base) var(--ease-out),
+			translate var(--dur-base) var(--ease-out),
+			scale var(--dur-base) var(--ease-out),
+			overlay var(--dur-base) allow-discrete,
+			display var(--dur-base) allow-discrete;
+	}
+
+	.modal[open] {
+		opacity: 1;
+		translate: 0;
+		scale: 1;
+	}
+
+	@starting-style {
+		.modal[open] {
+			opacity: 0;
+			translate: 0 16px;
+			scale: 0.98;
+		}
 	}
 
 	.modal::backdrop {
 		background: var(--overlay);
+		opacity: 0;
+		transition:
+			opacity var(--dur-base) var(--ease-out),
+			overlay var(--dur-base) allow-discrete,
+			display var(--dur-base) allow-discrete;
+	}
+
+	.modal[open]::backdrop {
+		opacity: 1;
+	}
+
+	@starting-style {
+		.modal[open]::backdrop {
+			opacity: 0;
+		}
+	}
+
+	/* Content follows the panel in, media first. */
+	.modal[open] .modal__media,
+	.modal[open] .modal__info {
+		animation: enter var(--dur-slow) var(--ease-out) both;
+		--enter-y: 10px;
+	}
+
+	.modal[open] .modal__media {
+		animation-delay: 60ms;
+	}
+
+	.modal[open] .modal__info {
+		animation-delay: 140ms;
 	}
 
 	.modal__header {
@@ -226,6 +279,9 @@ const altFor = (title: string) => `${m.screenshotOf}: ${title}`;
 		font-family: var(--font-mono-stack);
 		font-size: 12px;
 		cursor: pointer;
+		transition:
+			background-color var(--dur-fast) var(--ease-out),
+			color var(--dur-fast) var(--ease-out);
 	}
 
 	.modal__tab[aria-selected='true'] {
@@ -262,6 +318,13 @@ const altFor = (title: string) => `${m.screenshotOf}: ${title}`;
 	/* Only the active screenshot / caption of the active view is visible. */
 	.modal :global([data-shot]:not(.is-active)) {
 		display: none !important;
+	}
+
+	/* Switching tab or screenshot shows the new one via display, which restarts this. */
+	.modal__panel:not([hidden]),
+	.modal :global([data-shot].is-active) {
+		animation: enter 250ms var(--ease-out);
+		--enter-y: 6px;
 	}
 
 	.modal__footer {
@@ -305,7 +368,7 @@ const altFor = (title: string) => `${m.screenshotOf}: ${title}`;
 		overflow: hidden;
 		cursor: pointer;
 		opacity: 0.55;
-		transition: opacity 0.15s ease;
+		transition: opacity var(--dur-fast) ease;
 	}
 
 	.modal__thumb:hover {
@@ -410,6 +473,19 @@ const altFor = (title: string) => `${m.screenshotOf}: ${title}`;
 			margin: 0;
 			border-radius: 0;
 			border: 0;
+			translate: 0 24px;
+			scale: 1;
+		}
+
+		.modal[open] {
+			translate: 0;
+		}
+
+		@starting-style {
+			.modal[open] {
+				translate: 0 24px;
+				scale: 1;
+			}
 		}
 
 		.modal__header {

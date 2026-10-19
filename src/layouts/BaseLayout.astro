@@ -39,6 +39,7 @@ const canonical = Astro.site ? new URL(alternates[lang], Astro.site).href : unde
 		{canonical && <meta property="og:url" content={canonical} />}
 
 		<script is:inline>
+			document.documentElement.classList.add('js');
 			try {
 				if (localStorage.getItem('theme') === 'light') document.documentElement.dataset.theme = 'light';
 			} catch {}
@@ -51,5 +52,8 @@ const canonical = Astro.site ? new URL(alternates[lang], Astro.site).href : unde
 	<body>
 		<a class="skip-link" href="#main">{t.a11y.skip}</a>
 		<slot />
+		<script>
+			import '../scripts/reveal';
+		</script>
 	</body>
 </html>

@@ -8,7 +8,7 @@ interface Props {
 const { label, title, id } = Astro.props;
 ---
 
-<div class="heading">
+<div class="heading" data-reveal>
 	<span class="section-label">{label}</span>
 	<h2 class="section-title" id={id}>{title}</h2>
 </div>

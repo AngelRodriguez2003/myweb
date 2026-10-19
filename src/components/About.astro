@@ -12,7 +12,7 @@ const t = useTranslations(Astro.props.lang).about;
 <section id="sobre-mi" class="container section about" aria-labelledby="about-title">
 	<SectionHeading id="about-title" label={t.label} title={t.title} />
 	<div class="about__body">
-		{t.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+		{t.paragraphs.map((paragraph, i) => <p data-reveal style={`--i:${Math.min(i + 1, 5)}`}>{paragraph}</p>)}
 	</div>
 </section>
 

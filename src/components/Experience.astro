@@ -13,7 +13,7 @@ const t = useTranslations(Astro.props.lang).experience;
 	<SectionHeading id="experience-title" label={t.label} title={t.title} />
 	{
 		t.jobs.map((job) => (
-			<article class="job">
+			<article class="job" data-reveal>
 				<div class="job__meta">
 					<span class="job__dates">
 						{job.dates}

@@ -18,12 +18,12 @@ const screens = dict.explosive.screens;
 ---
 
 <section class="container section case-problem" aria-labelledby="problem-title">
-	<div class="case-problem__heading">
+	<div class="case-problem__heading" data-reveal>
 		<span class="section-label">{t.problem.label}</span>
 		<h2 class="section-title" id="problem-title">{t.problem.title[0]}<br />{t.problem.title[1]}</h2>
 	</div>
 	<div class="case-problem__body">
-		{t.problem.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+		{t.problem.paragraphs.map((paragraph, i) => <p data-reveal style={`--i:${Math.min(i + 1, 5)}`}>{paragraph}</p>)}
 	</div>
 </section>
 
@@ -32,7 +32,7 @@ const screens = dict.explosive.screens;
 	<ol class="case-steps__grid">
 		{
 			t.steps.items.map((step, i) => (
-				<li class="step">
+				<li class="step" data-reveal style={`--i:${Math.min(i + 1, 5)}`}>
 					<div class="step__media">
 						<PhoneFrame class="step__phone" image={explosive.steps[i]} alt={step.alt} sizes="(max-width: 719px) 60vw, 262px" />
 					</div>
@@ -51,8 +51,8 @@ const screens = dict.explosive.screens;
 	<SectionHeading id="features-title" label={t.features.label} title={t.features.title} />
 	<div class="case-tech__grid">
 		{
-			t.features.items.map((item) => (
-				<div class="tech-card">
+			t.features.items.map((item, i) => (
+				<div class="tech-card" data-reveal style={`--i:${Math.min(i + 1, 5)}`}>
 					<span class="tech-card__tag">{item.tag}</span>
 					<h3 class="tech-card__title">{item.title}</h3>
 					<p class="tech-card__body">{item.body}</p>
@@ -62,14 +62,14 @@ const screens = dict.explosive.screens;
 	</div>
 
 	<div class="demos">
-		<div class="demos__head">
+		<div class="demos__head" data-reveal>
 			<h3 class="demos__title">{t.features.demos.title}</h3>
 			<p class="demos__note">{t.features.demos.note}</p>
 		</div>
 		<ul class="demos__list">
 			{
-				explosive.demos.map((item) => (
-					<li>
+				explosive.demos.map((item, i) => (
+					<li data-reveal style={`--i:${Math.min(i + 1, 5)}`}>
 						<figure class="demo">
 							<picture>
 								<source srcset={item.still} media="(prefers-reduced-motion: reduce)" type="image/webp" />
@@ -90,7 +90,7 @@ const screens = dict.explosive.screens;
 		</ul>
 	</div>
 
-	<div class="stack">
+	<div class="stack" data-reveal>
 		<h3 class="stack__title">{t.features.stack.title}</h3>
 		<dl class="stack__groups">
 			{
@@ -114,8 +114,8 @@ const screens = dict.explosive.screens;
 		<SectionHeading id="tech-title" label={t.tech.label} title={t.tech.title} />
 		<div class="case-tech__grid">
 			{
-				t.tech.items.map((item) => (
-					<div class="tech-card">
+				t.tech.items.map((item, i) => (
+					<div class="tech-card" data-reveal style={`--i:${Math.min(i + 1, 5)}`}>
 						<h3 class="tech-card__title">{item.title}</h3>
 						<p class="tech-card__body">{item.body}</p>
 					</div>
@@ -123,7 +123,7 @@ const screens = dict.explosive.screens;
 			}
 		</div>
 
-		<div class="ci">
+		<div class="ci" data-reveal>
 			<div class="ci__bar">
 				<span class="ci__title">{t.tech.terminal.title}</span>
 				<span class="ci__tag">.github/workflows</span>
@@ -162,10 +162,10 @@ const screens = dict.explosive.screens;
 			{ label: t.gallery.light, shots: explosive.galleryLight, suffix: ` ${t.gallery.lightSuffix}` },
 		].map((group) => (
 			<div class="gallery-group">
-				<h3 class="gallery-group__label">{group.label}</h3>
+				<h3 class="gallery-group__label" data-reveal>{group.label}</h3>
 				<div class="gallery-group__grid">
-					{group.shots.map((shot) => (
-						<figure class="shot">
+					{group.shots.map((shot, i) => (
+						<figure class="shot" data-reveal style={`--i:${Math.min(i, 5)}`}>
 							<Image
 								src={shot.image}
 								alt={`${screens[shot.id].title}${group.suffix}`}
@@ -182,7 +182,7 @@ const screens = dict.explosive.screens;
 </section>
 
 <section class="container case-cta-wrap">
-	<div class="case-cta">
+	<div class="case-cta" data-reveal>
 		<h2 class="case-cta__title">{t.cta.title}</h2>
 		<p class="case-cta__body">{t.cta.body}</p>
 		<div class="case-cta__actions">

@@ -12,7 +12,7 @@ const { lang } = Astro.props;
 const t = useTranslations(lang).case;
 ---
 
-<header class="case-header">
+<header class="case-header" data-enter style="--enter-y:-8px">
 	<div class="container case-header__bar">
 		<a class="case-header__back" href={`${routes.home[lang]}#proyectos`}>
 			<Icon name="arrow-left" size={16} />

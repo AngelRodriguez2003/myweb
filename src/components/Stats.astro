@@ -11,8 +11,8 @@ const stats = useTranslations(Astro.props.lang).stats;
 <div class="container">
 	<dl class="stats">
 		{
-			stats.map((stat) => (
-				<div class="stat">
+			stats.map((stat, i) => (
+				<div class="stat" data-reveal style={`--i:${Math.min(i, 5)}`}>
 					<dt class="stat__label">{stat.label}</dt>
 					<dd class="stat__value">{stat.value}</dd>
 				</div>

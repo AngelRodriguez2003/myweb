@@ -21,7 +21,7 @@ const links = [
 ];
 ---
 
-<header class="header">
+<header class="header" data-enter style="--enter-y:-8px">
 	<div class="container header__bar">
 		<a class="brand" href={routes.home[lang]} aria-label={t.a11y.home}>
 			<span class="brand__mark" aria-hidden="true">AR</span>
@@ -30,7 +30,7 @@ const links = [
 
 		<div class="header__actions">
 			<nav class="nav" id="site-nav" aria-label={t.a11y.mainNav}>
-				{links.map((link) => <a href={link.href}>{link.label}</a>)}
+				{links.map((link, i) => <a href={link.href} style={`--i:${i}`}>{link.label}</a>)}
 			</nav>
 			<LangToggle lang={lang} route="home" />
 			<ThemeToggle lang={lang} />
@@ -129,6 +129,11 @@ const links = [
 		display: block;
 	}
 
+	/* Restarts every time an icon is swapped back in via display. */
+	.menu-toggle :global(svg) {
+		animation: icon-in var(--dur-base) var(--ease-out);
+	}
+
 	@media (max-width: 1099px) {
 		.header__actions,
 		.nav {
@@ -179,6 +184,12 @@ const links = [
 			font-family: var(--font-display-stack);
 			font-weight: 700;
 			font-size: 24px;
+			opacity: 0;
+			translate: 0 -8px;
+			transition:
+				opacity var(--dur-base) var(--ease-out),
+				translate var(--dur-base) var(--ease-out),
+				display var(--dur-base) allow-discrete;
 		}
 
 		.nav a {
@@ -193,6 +204,21 @@ const links = [
 
 		.header[data-menu-open] .nav {
 			display: flex;
+			opacity: 1;
+			translate: 0;
+		}
+
+		@starting-style {
+			.header[data-menu-open] .nav {
+				opacity: 0;
+				translate: 0 -8px;
+			}
+		}
+
+		.header[data-menu-open] .nav a {
+			animation: enter var(--dur-base) var(--ease-out) both;
+			animation-delay: calc(var(--i, 0) * 40ms);
+			--enter-y: -6px;
 		}
 	}
 

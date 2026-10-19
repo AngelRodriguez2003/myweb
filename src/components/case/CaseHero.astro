@@ -15,19 +15,19 @@ const [left, center, right] = explosive.hero;
 <section class="container case-hero">
 	<div class="case-hero__top">
 		<div class="case-hero__intro">
-			<ul class="case-hero__chips">
+			<ul class="case-hero__chips" data-enter style="--i:0">
 				{t.chips.map((chip) => <li class="chip">{chip}</li>)}
 			</ul>
-			<h1 class="case-hero__title">Project<br />Explosive</h1>
-			<p class="case-hero__lead">{t.lead}</p>
-			<div class="case-hero__ctas">
+			<h1 class="case-hero__title" data-enter style="--i:1">Project<br />Explosive</h1>
+			<p class="case-hero__lead" data-enter style="--i:2">{t.lead}</p>
+			<div class="case-hero__ctas" data-enter style="--i:3">
 				<a class="btn btn--primary" href={explosive.liveUrl} rel="noopener" target="_blank">
 					{t.tryWeb}<Icon name="arrow-up-right" size={16} />
 				</a>
 				<a class="btn btn--ghost" href={explosive.repoUrl} rel="noopener" target="_blank">{t.code}</a>
 			</div>
 		</div>
-		<dl class="case-hero__facts">
+		<dl class="case-hero__facts" data-enter style="--i:3">
 			{
 				t.facts.map((fact) => (
 					<div>
@@ -120,6 +120,23 @@ const [left, center, right] = explosive.hero;
 	.case-hero__facts dd {
 		font-size: 16px;
 		color: var(--text);
+	}
+
+	/* Phones rise in after the intro: center first, then the sides. */
+	.case-hero__stage :global(.case-hero__phone) {
+		animation: enter 800ms var(--ease-out) both;
+		animation-delay: calc(4 * var(--stagger));
+		--enter-y: 32px;
+	}
+
+	.case-hero__stage :global(.case-hero__phone--side) {
+		animation-delay: calc(6 * var(--stagger));
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.case-hero__stage :global(.case-hero__phone) {
+			animation: none;
+		}
 	}
 
 	/* Three phones cropped at the bottom; the side ones sit lower. */

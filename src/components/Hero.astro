@@ -13,27 +13,27 @@ const t = useTranslations(lang).hero;
 
 <section id="inicio" class="container hero">
 	<div class="hero__intro">
-		<div class="hero__status">
+		<div class="hero__status" data-enter style="--i:0">
 			<span class="hero__dot" aria-hidden="true"></span>
 			<span class="hero__status-long">{t.status}</span>
 			<span class="hero__status-short">{t.statusShort}</span>
 		</div>
 
 		{/* Placeholder until the profile photo exists (src/assets/profile/). */}
-		<div class="avatar avatar--inline" aria-hidden="true"><span>AR</span></div>
+		<div class="avatar avatar--inline" aria-hidden="true" data-enter style="--i:1"><span>AR</span></div>
 
-		<h1 class="hero__name">Angel<br />Rodriguez</h1>
-		<p class="hero__role">{t.role}</p>
-		<p class="hero__lead">{t.lead}</p>
+		<h1 class="hero__name" data-enter style="--i:1">Angel<br />Rodriguez</h1>
+		<p class="hero__role" data-enter style="--i:2">{t.role}</p>
+		<p class="hero__lead" data-enter style="--i:3">{t.lead}</p>
 
-		<div class="hero__ctas">
+		<div class="hero__ctas" data-enter style="--i:4">
 			<a class="btn btn--primary" href="#proyectos">{t.ctaProjects}<Icon name="arrow" /></a>
 			<a class="btn btn--ghost" href="#contacto">{t.ctaContact}</a>
 		</div>
 	</div>
 
 	<div class="hero__aside">
-		<div class="hero__profile">
+		<div class="hero__profile" data-enter style="--i:3">
 			<div class="avatar" aria-hidden="true"><span>AR</span></div>
 			<p class="hero__stack">
 				{
@@ -46,7 +46,7 @@ const t = useTranslations(lang).hero;
 				}
 			</p>
 		</div>
-		<TerminalCard lang={lang} />
+		<TerminalCard lang={lang} data-enter style="--i:5" />
 	</div>
 </section>
 

@@ -3,9 +3,13 @@ import { useTranslations, type Lang } from '../i18n/utils';
 
 interface Props {
 	lang: Lang;
+	[attr: string]: unknown;
 }
 
-const t = useTranslations(Astro.props.lang).hero.terminal;
+const { lang, ...attrs } = Astro.props;
+const t = useTranslations(lang).hero.terminal;
+// Rows "type in" one after another, once the card itself has entered.
+const rowDelay = (n: number) => `--i:${8 + n * 2}`;
 
 const steps = [
 	{ label: 'lint + typecheck', status: t.passed },
@@ -14,16 +18,16 @@ const steps = [
 ];
 ---
 
-<div class="terminal">
+<div class="terminal" {...attrs}>
 	<div class="terminal__bar">
 		<div class="terminal__dots" aria-hidden="true"><span></span><span></span><span></span></div>
 		<span class="terminal__file">deploy.yml</span>
 	</div>
 	<div class="terminal__body">
-		<div class="terminal__muted">$ git push origin main</div>
+		<div class="terminal__muted" data-enter style={rowDelay(0)}>$ git push origin main</div>
 		{
-			steps.map((step) => (
-				<div class="terminal__row">
+			steps.map((step, i) => (
+				<div class="terminal__row" data-enter style={rowDelay(i + 1)}>
 					<span>
 						<span class="terminal__ok" aria-hidden="true">✓</span> {step.label}
 					</span>
@@ -31,11 +35,11 @@ const steps = [
 				</div>
 			))
 		}
-		<div class="terminal__row terminal__warn">
+		<div class="terminal__row terminal__warn" data-enter style={rowDelay(4)}>
 			<span><span aria-hidden="true">→</span> eas update · production</span>
 			<span>{t.published}</span>
 		</div>
-		<div class="terminal__done">{t.done}</div>
+		<div class="terminal__done" data-enter style={rowDelay(5)}>{t.done}</div>
 	</div>
 </div>
 

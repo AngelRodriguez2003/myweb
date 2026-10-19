@@ -29,6 +29,15 @@ const t = useTranslations(Astro.props.lang);
 	:global([data-theme='light']) .theme-toggle :global(.theme-toggle__moon) {
 		display: block;
 	}
+
+	.theme-toggle :global(svg) {
+		animation: icon-in var(--dur-base) var(--ease-out);
+	}
+
+	/* The view transition already animates the switch; don't fade colors inside it too. */
+	:global(html.theme-switching body) {
+		transition: none;
+	}
 </style>
 
 <script>
@@ -43,14 +52,35 @@ const t = useTranslations(Astro.props.lang);
 		document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isLight ? '#f4f3ed' : '#111210');
 	}
 
+	function apply(theme: string) {
+		root.dataset.theme = theme;
+		try {
+			localStorage.setItem('theme', theme);
+		} catch {}
+		sync();
+	}
+
 	for (const button of buttons) {
 		button.addEventListener('click', () => {
 			const next = root.dataset.theme === 'light' ? 'dark' : 'light';
-			root.dataset.theme = next;
-			try {
-				localStorage.setItem('theme', next);
-			} catch {}
-			sync();
+			const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			if (!document.startViewTransition || reduced) return apply(next);
+
+			// Reveal the new theme as a circle growing from the button.
+			const rect = button.getBoundingClientRect();
+			const x = rect.left + rect.width / 2;
+			const y = rect.top + rect.height / 2;
+			const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+
+			root.classList.add('theme-switching');
+			const transition = document.startViewTransition(() => apply(next));
+			transition.ready.then(() => {
+				root.animate(
+					{ clipPath: [`circle(0 at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+					{ duration: 500, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', pseudoElement: '::view-transition-new(root)' },
+				);
+			});
+			transition.finished.finally(() => root.classList.remove('theme-switching'));
 		});
 	}
 

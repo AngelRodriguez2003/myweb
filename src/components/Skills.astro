@@ -13,8 +13,8 @@ const t = useTranslations(Astro.props.lang).skills;
 	<SectionHeading id="skills-title" label={t.label} title={t.title} />
 	<div class="skills__grid">
 		{
-			t.groups.map((group) => (
-				<div class="skill-card">
+			t.groups.map((group, i) => (
+				<div class="skill-card" data-reveal style={`--i:${Math.min(i + 1, 5)}`}>
 					<h3 class="skill-card__title">{group.name}</h3>
 					<ul class="skill-card__chips">
 						{group.items.map((item) => (
