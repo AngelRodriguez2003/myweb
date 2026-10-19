@@ -8,6 +8,7 @@ import Hero from '../components/Hero.astro';
 import Projects from '../components/Projects.astro';
 import Skills from '../components/Skills.astro';
 import Stats from '../components/Stats.astro';
+import TechMarquee from '../components/TechMarquee.astro';
 import { useTranslations, type Lang } from '../i18n/utils';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
@@ -23,6 +24,7 @@ const t = useTranslations(lang);
 	<Header lang={lang} />
 	<main id="main">
 		<Hero lang={lang} />
+		<TechMarquee lang={lang} />
 		<Stats lang={lang} />
 		<About lang={lang} />
 		<Skills lang={lang} />

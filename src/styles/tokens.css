@@ -111,14 +111,20 @@
 	--font-mono-stack: var(--font-mono), ui-monospace, monospace;
 
 	/* Fluid scale between the 390px (mobile) and 1440px (desktop) boards. */
-	--gutter: clamp(1.25rem, -1.07rem + 9.52vw, 7.5rem);
-	--section-y: clamp(3rem, 1.886rem + 4.571vw, 6rem);
-	--fs-h1: clamp(3.625rem, 2.56rem + 4.38vw, 6.5rem);
-	--fs-h2: clamp(2.125rem, 1.7rem + 1.714vw, 3.25rem);
-	--fs-display: clamp(3rem, 1.886rem + 4.571vw, 6rem);
-	--fs-lead: clamp(1.0625rem, 0.993rem + 0.286vw, 1.25rem);
-	--fs-body: clamp(1.0625rem, 1.016rem + 0.19vw, 1.1875rem);
-	--fs-label: clamp(0.75rem, 0.703rem + 0.19vw, 0.875rem);
+	--gutter: clamp(1.25rem, -0.143rem + 5.714vw, 5rem);
+	--section-y: clamp(2.75rem, 1.914rem + 3.429vw, 5rem);
+	--fs-h1: clamp(3rem, 2.257rem + 3.048vw, 5rem);
+	--fs-h2: clamp(1.875rem, 1.596rem + 1.143vw, 2.625rem);
+	--fs-h3: clamp(26px, 24.5px + 0.38vw, 30px);
+	--fs-h4: clamp(20px, 18.5px + 0.38vw, 24px);
+	--fs-display: clamp(2.625rem, 1.929rem + 2.857vw, 4.5rem);
+	--fs-lead: clamp(1rem, 0.954rem + 0.19vw, 1.125rem);
+	--fs-body: clamp(1rem, 0.977rem + 0.095vw, 1.0625rem);
+	--fs-label: clamp(0.75rem, 0.727rem + 0.095vw, 0.8125rem);
+	--gap-grid: clamp(24px, 18px + 1.52vw, 40px);
+
+	--header-h: 72px;
+	--btn-h: 46px;
 
 	--radius-sm: 8px;
 	--radius: 12px;

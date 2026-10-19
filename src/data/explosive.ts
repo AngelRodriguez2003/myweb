@@ -13,9 +13,19 @@ import mobileNuevoCiclo from '../assets/projects/project-explosive/mobile-nuevo-
 import mobileProgreso from '../assets/projects/project-explosive/mobile-progreso.webp';
 import mobileProximaSerie from '../assets/projects/project-explosive/mobile-proxima-serie.webp';
 import mobileRegistrarSerie from '../assets/projects/project-explosive/mobile-registrar-serie.webp';
+import webInicio from '../assets/projects/project-explosive/web-inicio.webp';
+import webProgreso from '../assets/projects/project-explosive/web-progreso.webp';
 import webProximaSerie from '../assets/projects/project-explosive/web-proxima-serie.webp';
 
 export type ScreenId = keyof Dictionary['explosive']['screens'];
+export type DemoId = keyof Dictionary['case']['features']['demos']['items'];
+
+/** Screen recordings (animated WebP in public/, converted from the app repo's docs/gifs) with a still frame for reduced motion. */
+const demo = (id: DemoId, file: string) => ({
+	id,
+	src: `/projects/project-explosive/${file}.webp`,
+	still: `/projects/project-explosive/${file}-still.webp`,
+});
 
 export interface Screenshot {
 	id: ScreenId;
@@ -26,9 +36,13 @@ export const explosive = {
 	liveUrl: 'https://project-explosive.expo.app',
 	liveHost: 'project-explosive.expo.app',
 	repoUrl: 'https://github.com/AngelRodriguez2003/my-bilbo-app',
-	cover: { web: webProximaSerie, mobile: mobileInicio },
-	/** Modal screenshots. Only one web capture exists for now; add the rest (Inicio, Progreso, Catálogo) here. */
-	web: [{ id: 'proximaSerie', image: webProximaSerie }] satisfies Screenshot[],
+	cover: { web: webProgreso, mobile: mobileInicio },
+	/** Modal screenshots. */
+	web: [
+		{ id: 'inicio', image: webInicio },
+		{ id: 'proximaSerie', image: webProximaSerie },
+		{ id: 'progreso', image: webProgreso },
+	] satisfies Screenshot[],
 	mobile: [
 		{ id: 'inicio', image: mobileInicio },
 		{ id: 'proximaSerie', image: mobileProximaSerie },
@@ -37,6 +51,13 @@ export const explosive = {
 		{ id: 'catalogo', image: mobileCatalogo },
 	] satisfies Screenshot[],
 	hero: [mobileInicio, mobileProximaSerie, mobileProgreso],
+	demos: [
+		demo('registrarSerie', 'registrar-serie'),
+		demo('anadirEjercicio', 'anadir-ejercicio'),
+		demo('progreso', 'progreso'),
+		demo('tema', 'tema'),
+		demo('login', 'login'),
+	],
 	steps: [mobileCatalogo, mobileNuevoCiclo, mobileRegistrarSerie],
 	galleryDark: [
 		{ id: 'inicio', image: mobileInicio },

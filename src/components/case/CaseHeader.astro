@@ -36,7 +36,7 @@ const t = useTranslations(lang).case;
 		align-items: center;
 		justify-content: space-between;
 		gap: 16px;
-		height: 88px;
+		height: var(--header-h);
 	}
 
 	.case-header__back {
@@ -45,7 +45,7 @@ const t = useTranslations(lang).case;
 		gap: 8px;
 		color: var(--text-2);
 		font-weight: 500;
-		font-size: 15px;
+		font-size: 14px;
 		text-decoration: none;
 	}
 
@@ -67,7 +67,7 @@ const t = useTranslations(lang).case;
 
 	@media (max-width: 899px) {
 		.case-header__bar {
-			height: 68px;
+			height: 64px;
 		}
 
 		.case-header__actions {

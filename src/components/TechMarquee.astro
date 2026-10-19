@@ -1,0 +1,111 @@
+---
+import { tech } from '../data/tech';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+	lang: Lang;
+}
+
+const t = useTranslations(Astro.props.lang).techMarquee;
+---
+
+<section class="marquee" aria-label={t.label}>
+	{
+		// Two identical tracks: when the first has scrolled its full width the second is exactly
+		// where the first started, so the loop has no jump. The copy is hidden from screen readers.
+		[false, true].map((copy) => (
+			<ul class="marquee__track" aria-hidden={copy ? 'true' : undefined}>
+				{tech.map((item) => (
+					<li class="marquee__item">
+						<svg viewBox="0 0 24 24" width="36" height="36" fill={item.color ?? 'currentColor'} aria-hidden="true">
+							<path d={item.path} />
+						</svg>
+						<span>{item.name}</span>
+					</li>
+				))}
+			</ul>
+		))
+	}
+</section>
+
+<style>
+	.marquee {
+		--gap: clamp(36px, 23px + 3.4vw, 72px);
+
+		display: flex;
+		overflow: hidden;
+		padding-block: clamp(24px, 15px + 2.3vw, 48px);
+		mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+	}
+
+	.marquee__track {
+		display: flex;
+		flex-shrink: 0;
+		align-items: center;
+		gap: var(--gap);
+		margin: 0;
+		padding: 0 var(--gap) 0 0;
+		list-style: none;
+		animation: marquee 45s linear infinite;
+	}
+
+	.marquee__item {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		flex-shrink: 0;
+		font-family: var(--font-display-stack);
+		font-weight: 600;
+		font-size: 24px;
+		line-height: 1;
+		white-space: nowrap;
+		color: var(--muted);
+		opacity: 0.75;
+		transition:
+			opacity 0.2s,
+			color 0.2s;
+	}
+
+	.marquee__item:hover {
+		color: var(--text);
+		opacity: 1;
+	}
+
+	.marquee__item svg {
+		flex-shrink: 0;
+	}
+
+	@keyframes marquee {
+		to {
+			transform: translateX(-100%);
+		}
+	}
+
+	@media (max-width: 719px) {
+		.marquee__item {
+			gap: 10px;
+			font-size: 18px;
+		}
+
+		.marquee__item svg {
+			width: 26px;
+			height: 26px;
+		}
+	}
+
+	/* The global reduced-motion rule would shrink the animation to 0.01ms and make the strip jump,
+	   so stop it outright and let people scroll it by hand. */
+	@media (prefers-reduced-motion: reduce) {
+		.marquee {
+			overflow-x: auto;
+		}
+
+		.marquee__track {
+			animation: none;
+		}
+
+		.marquee__track[aria-hidden] {
+			display: none;
+		}
+	}
+</style>

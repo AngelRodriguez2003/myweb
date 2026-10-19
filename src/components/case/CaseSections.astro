@@ -1,5 +1,5 @@
 ---
-// Body of the Project Explosive case study: problem, steps, technical decisions, gallery and closing CTA.
+// Body of the Project Explosive case study: problem, steps, features and stack, technical decisions, gallery and closing CTA.
 import { Image } from 'astro:assets';
 import { explosive } from '../../data/explosive';
 import { routes, useTranslations, type Lang } from '../../i18n/utils';
@@ -45,6 +45,68 @@ const screens = dict.explosive.screens;
 			))
 		}
 	</ol>
+</section>
+
+<section class="container section case-features" aria-labelledby="features-title">
+	<SectionHeading id="features-title" label={t.features.label} title={t.features.title} />
+	<div class="case-tech__grid">
+		{
+			t.features.items.map((item) => (
+				<div class="tech-card">
+					<span class="tech-card__tag">{item.tag}</span>
+					<h3 class="tech-card__title">{item.title}</h3>
+					<p class="tech-card__body">{item.body}</p>
+				</div>
+			))
+		}
+	</div>
+
+	<div class="demos">
+		<div class="demos__head">
+			<h3 class="demos__title">{t.features.demos.title}</h3>
+			<p class="demos__note">{t.features.demos.note}</p>
+		</div>
+		<ul class="demos__list">
+			{
+				explosive.demos.map((item) => (
+					<li>
+						<figure class="demo">
+							<picture>
+								<source srcset={item.still} media="(prefers-reduced-motion: reduce)" type="image/webp" />
+								<img
+									src={item.src}
+									alt={t.features.demos.items[item.id].alt}
+									width="300"
+									height="652"
+									loading="lazy"
+									decoding="async"
+								/>
+							</picture>
+							<figcaption>{t.features.demos.items[item.id].caption}</figcaption>
+						</figure>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+
+	<div class="stack">
+		<h3 class="stack__title">{t.features.stack.title}</h3>
+		<dl class="stack__groups">
+			{
+				t.features.stack.groups.map((group) => (
+					<div class="stack__group">
+						<dt>{group.name}</dt>
+						<dd>
+							<ul class="stack__items">
+								{group.items.map((item) => <li class="chip">{item}</li>)}
+							</ul>
+						</dd>
+					</div>
+				))
+			}
+		</dl>
+	</div>
 </section>
 
 <section class="case-tech" aria-labelledby="tech-title">
@@ -137,8 +199,8 @@ const screens = dict.explosive.screens;
 	.case-problem {
 		display: grid;
 		grid-template-columns: 1fr 1.2fr;
-		gap: 72px;
-		padding-top: clamp(56px, 31px + 6.3vw, 120px);
+		gap: 56px;
+		padding-top: clamp(48px, 30px + 4.6vw, 96px);
 	}
 
 	.case-problem__heading {
@@ -151,7 +213,7 @@ const screens = dict.explosive.screens;
 		display: flex;
 		flex-direction: column;
 		gap: 22px;
-		padding-top: 40px;
+		padding-top: 32px;
 		font-size: var(--fs-body);
 		line-height: 1.65;
 		color: var(--text-2);
@@ -161,7 +223,7 @@ const screens = dict.explosive.screens;
 	.case-steps {
 		display: flex;
 		flex-direction: column;
-		gap: clamp(28px, 20px + 2vw, 48px);
+		gap: var(--gap-grid);
 	}
 
 	.case-steps__grid {
@@ -175,8 +237,8 @@ const screens = dict.explosive.screens;
 	.step {
 		display: flex;
 		flex-direction: column;
-		gap: 28px;
-		padding: 36px 32px;
+		gap: 24px;
+		padding: 28px;
 		border-radius: 24px;
 		background: var(--w-surface);
 		border: 1px solid var(--w-line);
@@ -206,7 +268,7 @@ const screens = dict.explosive.screens;
 	.step__title {
 		font-family: var(--font-display-stack);
 		font-weight: 700;
-		font-size: clamp(22px, 20.5px + 0.38vw, 26px);
+		font-size: var(--fs-h4);
 	}
 
 	.step__body {
@@ -215,7 +277,117 @@ const screens = dict.explosive.screens;
 		color: var(--text-2);
 	}
 
-	/* 03 technical decisions */
+	/* 03 features and stack */
+	.case-features {
+		display: flex;
+		flex-direction: column;
+		gap: var(--gap-grid);
+	}
+
+	.tech-card__tag {
+		font-family: var(--font-mono-stack);
+		font-size: 12px;
+		color: var(--accent-ink);
+	}
+
+	.demos {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.demos__head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 8px 24px;
+	}
+
+	.demos__title {
+		font-family: var(--font-display-stack);
+		font-weight: 700;
+		font-size: 20px;
+	}
+
+	.demos__note {
+		font-size: 14px;
+		color: var(--muted);
+	}
+
+	.demos__list {
+		display: grid;
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		gap: 20px;
+		padding: 0;
+		list-style: none;
+	}
+
+	.demo {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.demo img {
+		display: block;
+		width: 100%;
+		height: auto;
+		border-radius: 22px;
+		border: 1px solid var(--w-line);
+		background: var(--w-surface);
+	}
+
+	.demo figcaption {
+		font-size: 14px;
+		color: var(--text-2);
+	}
+
+	.stack {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		padding: 28px;
+		border-radius: 20px;
+		background: var(--w-surface);
+		border: 1px solid var(--w-line);
+	}
+
+	.stack__title {
+		font-family: var(--font-display-stack);
+		font-weight: 700;
+		font-size: 20px;
+	}
+
+	.stack__groups {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.stack__group {
+		display: grid;
+		grid-template-columns: 180px 1fr;
+		gap: 16px;
+		align-items: center;
+		padding-block: 14px;
+		border-top: 1px solid var(--w-line);
+	}
+
+	.stack__group dt {
+		font-family: var(--font-mono-stack);
+		font-size: 13px;
+		color: var(--muted);
+	}
+
+	.stack__items {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		padding: 0;
+		list-style: none;
+	}
+
+	/* 04 technical decisions */
 	.case-tech {
 		background: var(--w-band);
 		border-block: 1px solid var(--w-line);
@@ -224,7 +396,7 @@ const screens = dict.explosive.screens;
 	.case-tech__inner {
 		display: flex;
 		flex-direction: column;
-		gap: clamp(28px, 20px + 2vw, 48px);
+		gap: var(--gap-grid);
 	}
 
 	.case-tech__grid {
@@ -237,7 +409,7 @@ const screens = dict.explosive.screens;
 		display: flex;
 		flex-direction: column;
 		gap: 12px;
-		padding: 32px;
+		padding: 28px;
 		border-radius: 20px;
 		background: var(--w-surface);
 		border: 1px solid var(--w-line);
@@ -246,7 +418,7 @@ const screens = dict.explosive.screens;
 	.tech-card__title {
 		font-family: var(--font-display-stack);
 		font-weight: 700;
-		font-size: 22px;
+		font-size: 20px;
 		line-height: 1.2;
 	}
 
@@ -277,7 +449,7 @@ const screens = dict.explosive.screens;
 	.ci__title {
 		font-family: var(--font-display-stack);
 		font-weight: 700;
-		font-size: 18px;
+		font-size: 17px;
 	}
 
 	.ci__tag {
@@ -316,11 +488,11 @@ const screens = dict.explosive.screens;
 		margin-right: 0.5em;
 	}
 
-	/* 04 gallery */
+	/* 05 gallery */
 	.case-gallery {
 		display: flex;
 		flex-direction: column;
-		gap: clamp(28px, 20px + 2vw, 48px);
+		gap: var(--gap-grid);
 	}
 
 	.gallery-group {
@@ -373,7 +545,7 @@ const screens = dict.explosive.screens;
 		flex-direction: column;
 		align-items: flex-start;
 		gap: 24px;
-		padding: clamp(32px, 18px + 3.6vw, 72px) clamp(24px, 13px + 2.9vw, 64px);
+		padding: clamp(32px, 21px + 2.9vw, 56px) clamp(24px, 16.6px + 1.9vw, 44px);
 		border-radius: var(--radius-xl);
 		background: var(--w-surface);
 		border: 1px solid var(--w-line);
@@ -382,7 +554,7 @@ const screens = dict.explosive.screens;
 	.case-cta__title {
 		font-family: var(--font-display-stack);
 		font-weight: 800;
-		font-size: clamp(2.25rem, 1.6rem + 2.67vw, 4rem);
+		font-size: clamp(2rem, 1.536rem + 1.905vw, 3.25rem);
 		line-height: 1;
 		letter-spacing: -0.03em;
 	}
@@ -420,6 +592,19 @@ const screens = dict.explosive.screens;
 			gap: 20px;
 		}
 
+		.demos__list {
+			grid-template-columns: none;
+			grid-auto-flow: column;
+			grid-auto-columns: 30%;
+			overflow-x: auto;
+			scroll-snap-type: x mandatory;
+			padding-bottom: 8px;
+		}
+
+		.demos__list > li {
+			scroll-snap-align: start;
+		}
+
 		.gallery-group__grid {
 			grid-template-columns: repeat(4, minmax(0, 1fr));
 		}
@@ -437,6 +622,24 @@ const screens = dict.explosive.screens;
 
 		.tech-card {
 			padding: 22px 20px;
+		}
+
+		.stack {
+			padding: 22px 20px;
+		}
+
+		.demos__list {
+			grid-auto-columns: 62%;
+			gap: 14px;
+		}
+
+		.demo img {
+			border-radius: 18px;
+		}
+
+		.stack__group {
+			grid-template-columns: 1fr;
+			gap: 10px;
 		}
 
 		.ci__bar,

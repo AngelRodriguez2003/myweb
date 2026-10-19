@@ -56,6 +56,9 @@ const en: Dictionary = {
 			'What I enjoy most isn’t always on screen: an app that talks well to the backend, that’s fast and stable, and where every release reaches the stores with no manual steps.',
 		],
 	},
+	techMarquee: {
+		label: 'Technologies I’ve worked with',
+	},
 	skills: {
 		label: '02 / skills',
 		title: 'My toolbox',
@@ -110,21 +113,43 @@ const en: Dictionary = {
 			fullCase: 'See full case study',
 			code: 'See code on GitHub',
 			screenshotOf: 'Project Explosive screenshot',
+			stack: 'TECHNOLOGIES',
 		},
 	},
 	explosive: {
 		chips: ['iOS · Android · Web', 'Personal project'],
-		stack: 'React Native · Expo · Supabase',
-		tagline: 'My app for training with the Bilbo method: it works out the weight for each session and shows my progress.',
+		stack: 'React Native · Expo · TypeScript · Supabase',
+		tagline:
+			'My app for training with the Bilbo method: it works out the weight for each session, shows my progress and syncs my phone with my computer.',
 		browserAlt: 'Project Explosive in the browser',
 		phoneAlt: 'Project Explosive on a phone',
 		intro: 'I built it for my own Bilbo method training, without the complexity of generic gym apps.',
 		what: [
-			'Calculates the weight for each session.',
-			'Projects the end of the cycle.',
-			'Works offline and syncs across devices.',
+			'Calculates the weight for each session and projects the end of the cycle.',
+			'Progress chart with an estimated 1RM.',
+			'Catalog of 509 exercises with photos, search and filters.',
+			'Optional email and password account to sync devices.',
+			'Light and dark themes, in Spanish and English.',
 		],
-		how: ['One codebase for iOS, Android and web.', 'Jest tests and CI on every PR.', 'Ships itself when merged to main.'],
+		how: [
+			'One codebase for iOS, Android and web with Expo Router.',
+			'Offline first: Zustand state saved on the device.',
+			'Supabase Auth and Postgres with RLS policies.',
+			'Jest tests, CI on every PR and automatic deploys on merge.',
+		],
+		tech: [
+			'React Native',
+			'Expo',
+			'Expo Router',
+			'TypeScript',
+			'Zustand',
+			'Supabase',
+			'i18next',
+			'Reanimated',
+			'Jest',
+			'GitHub Actions',
+			'EAS Hosting',
+		],
 		screens: {
 			inicio: { title: 'Home', desc: 'Exercises and active cycles.' },
 			proximaSerie: { title: 'Next set', desc: 'Today’s weight and the cycle projection.' },
@@ -153,7 +178,7 @@ const en: Dictionary = {
 		facts: [
 			{ term: 'ROLE', value: 'Design and development' },
 			{ term: 'PLATFORMS', value: 'iOS · Android · Web' },
-			{ term: 'STACK', value: 'Expo · TypeScript · Supabase' },
+			{ term: 'STACK', value: 'React Native · Expo · Supabase' },
 			{ term: 'LANGUAGES', value: 'Spanish and English' },
 		],
 		heroAlts: [
@@ -193,33 +218,105 @@ const en: Dictionary = {
 				},
 			],
 		},
+		features: {
+			label: '03 / what’s inside',
+			title: 'More than a calculator',
+			items: [
+				{
+					tag: 'Supabase Auth',
+					title: 'Optional account',
+					body: 'Sign in with email and password and your phone and computer show the same data. Without an account, everything stays on the device.',
+				},
+				{
+					tag: 'theme',
+					title: 'Light and dark',
+					body: 'Follows the system theme, or you pick one in Settings. Both come from the same “forge” palette of charcoal and ember.',
+				},
+				{
+					tag: 'i18next',
+					title: 'Spanish and English',
+					body: 'Detects the phone’s language with expo-localization. It also translates the catalog’s exercise names and the date format.',
+				},
+				{
+					tag: 'react-native-svg',
+					title: 'Progress at a glance',
+					body: 'A custom chart of reps or weight per session, animated with Reanimated, with the estimated 1RM (Epley) and the end-of-cycle line.',
+				},
+				{
+					tag: 'catalog',
+					title: '509 exercises with photos',
+					body: 'Search and filter by muscle group. If one is missing, you create it yourself.',
+				},
+				{
+					tag: 'settings',
+					title: 'Your way',
+					body: 'Kg or lb and a configurable per-session increment. Settings travel with your account, just like your progress.',
+				},
+			],
+			demos: {
+				title: 'In action',
+				note: 'Recorded in the iOS simulator with sample data.',
+				items: {
+					registrarSerie: {
+						caption: 'Logging a set',
+						alt: 'Bench press is opened, a set is logged and the projection updates with the next weight',
+					},
+					anadirEjercicio: {
+						caption: 'Adding from the catalog',
+						alt: 'The catalog is opened, filtered by back, searched for “row” and the exercise is added',
+					},
+					progreso: {
+						caption: 'Progress per exercise',
+						alt: 'In Progress the exercise is switched and the chart goes from reps to weight per session',
+					},
+					tema: {
+						caption: 'Light and dark theme',
+						alt: 'In Settings the light theme is turned on, the screens are browsed and it switches back to dark',
+					},
+					login: {
+						caption: 'Account to sync',
+						alt: 'Account screen with email and password to sign in or create an account',
+					},
+				},
+			},
+			stack: {
+				title: 'Stack',
+				groups: [
+					{ name: 'App', items: ['React Native', 'Expo SDK 57', 'Expo Router', 'React 19', 'TypeScript'] },
+					{ name: 'Data', items: ['Zustand', 'AsyncStorage', 'Supabase Auth', 'Postgres + RLS'] },
+					{ name: 'UI', items: ['react-native-svg', 'Reanimated', 'expo-image', 'React Compiler'] },
+					{ name: 'Languages', items: ['i18next', 'react-i18next', 'expo-localization'] },
+					{ name: 'Quality and deploy', items: ['Jest', 'ESLint', 'GitHub Actions', 'EAS Hosting'] },
+				],
+			},
+		},
 		tech: {
-			label: '03 / technical decisions',
+			label: '04 / technical decisions',
 			title: 'What the screenshots don’t show',
 			items: [
 				{
 					title: 'Offline first',
-					body: 'Everything is stored on the device and an account is optional. Without a connection, the app works the same.',
+					body: 'State lives in Zustand and is saved on the device. Offline, the app works the same, and changes go up on the next sync.',
 				},
 				{
 					title: 'Sync without duplicates',
-					body: 'With Supabase, every record carries its last-modified date and the most recent one wins. Sample exercises use fixed ids so they don’t duplicate across devices.',
+					body: 'The most recent change wins per record, not per device. Each pass pulls before it pushes, with one cursor on the device’s clock and another on the server’s, and deletes are soft so they can travel.',
 				},
 				{
 					title: 'One codebase, three platforms',
-					body: 'Expo Router with typed routes; the web build is a static export published on EAS Hosting.',
+					body: 'Expo Router with typed routes and the React Compiler. The web build is a static export published on EAS Hosting.',
 				},
 				{
 					title: 'Tested logic',
-					body: 'Jest covers the method’s calculations, data merging, backups, the catalog and the user session.',
+					body: 'About 75 Jest tests cover the method’s calculations, data merging, backups, the catalog and the user session.',
 				},
 				{
 					title: 'Your backup, your call',
 					body: 'Export and import all your progress as JSON, merging with or replacing what you already have.',
 				},
 				{
-					title: 'Custom design',
-					body: 'A “forge” palette of charcoal and ember, with light and dark themes and native modules like expo-glass-effect.',
+					title: 'Protected data',
+					body: 'Postgres RLS policies: each account only reads and writes its own rows. On sign-out, the app pushes anything pending before clearing the device.',
 				},
 			],
 			terminal: {
@@ -248,7 +345,7 @@ const en: Dictionary = {
 			},
 		},
 		gallery: {
-			label: '04 / gallery',
+			label: '05 / gallery',
 			title: 'Every screen',
 			dark: 'DARK THEME',
 			light: 'LIGHT THEME',
