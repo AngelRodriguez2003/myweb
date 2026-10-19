@@ -149,14 +149,14 @@ const altFor = (title: string) => `${m.screenshotOf}: ${title}`;
 	.modal {
 		width: min(1200px, 100% - 2 * var(--gutter));
 		max-width: none;
-		max-height: calc(100dvh - 48px);
+		height: min(760px, 100dvh - 48px);
+		max-height: none;
 		padding: 0;
 		border-radius: 24px;
 		background: var(--surface-2);
 		border: 1px solid var(--line-3);
 		color: var(--text);
-		overflow: auto;
-		overscroll-behavior: contain;
+		overflow: hidden;
 		opacity: 0;
 		translate: 0 16px;
 		scale: 0.98;
@@ -216,6 +216,13 @@ const altFor = (title: string) => `${m.screenshotOf}: ${title}`;
 		animation-delay: 140ms;
 	}
 
+	/* Fixed-height panel: the header stays put and each column scrolls on its own. */
+	.modal__inner {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+	}
+
 	.modal__header {
 		display: flex;
 		justify-content: space-between;
@@ -249,6 +256,8 @@ const altFor = (title: string) => `${m.screenshotOf}: ${title}`;
 	.modal__grid {
 		display: grid;
 		grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+		flex: 1;
+		min-height: 0;
 	}
 
 	.modal__media {
@@ -258,6 +267,7 @@ const altFor = (title: string) => `${m.screenshotOf}: ${title}`;
 		padding: 24px 28px 28px;
 		background: var(--w-surface);
 		border-right: 1px solid var(--line-2);
+		overflow-y: auto;
 	}
 
 	.modal__tabs {
@@ -400,6 +410,8 @@ const altFor = (title: string) => `${m.screenshotOf}: ${title}`;
 		flex-direction: column;
 		gap: 22px;
 		padding: 24px 28px 28px;
+		overflow-y: auto;
+		overscroll-behavior: contain;
 	}
 
 	.modal__intro {
@@ -473,8 +485,15 @@ const altFor = (title: string) => `${m.screenshotOf}: ${title}`;
 			margin: 0;
 			border-radius: 0;
 			border: 0;
+			overflow: auto;
+			overscroll-behavior: contain;
 			translate: 0 24px;
 			scale: 1;
+		}
+
+		/* Small screens scroll the whole sheet instead of each column. */
+		.modal__inner {
+			height: auto;
 		}
 
 		.modal[open] {
@@ -504,6 +523,7 @@ const altFor = (title: string) => `${m.screenshotOf}: ${title}`;
 			padding: 20px;
 			border-right: 0;
 			border-bottom: 1px solid var(--line-2);
+			overflow-y: visible;
 		}
 
 		.modal__stage {
@@ -534,6 +554,7 @@ const altFor = (title: string) => `${m.screenshotOf}: ${title}`;
 
 		.modal__info {
 			padding: 20px 20px 32px;
+			overflow-y: visible;
 		}
 	}
 </style>
