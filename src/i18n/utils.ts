@@ -1,24 +1,24 @@
 import en from './en';
 import es from './es';
 
-export const languages = { es: 'ES', en: 'EN' } as const;
+export const languages = { en: 'EN', es: 'ES' } as const;
 
 export type Lang = keyof typeof languages;
 
-export const defaultLang: Lang = 'es';
+export const defaultLang: Lang = 'en';
 
 const dictionaries = { es, en };
 
 /** Pages that exist in both languages, keyed by a stable id. */
 export const routes = {
-	home: { es: '/', en: '/en/' },
-	explosive: { es: '/proyectos/project-explosive/', en: '/en/projects/project-explosive/' },
+	home: { en: '/', es: '/es/' },
+	explosive: { en: '/projects/project-explosive/', es: '/es/proyectos/project-explosive/' },
 } as const;
 
 export type RouteId = keyof typeof routes;
 
 export function toLang(locale: string | undefined): Lang {
-	return locale === 'en' ? 'en' : defaultLang;
+	return locale === 'es' ? 'es' : defaultLang;
 }
 
 export function useTranslations(lang: Lang) {

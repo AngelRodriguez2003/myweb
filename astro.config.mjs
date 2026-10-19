@@ -4,8 +4,8 @@ import { defineConfig, fontProviders } from 'astro/config';
 // https://astro.build/config
 export default defineConfig({
 	i18n: {
-		locales: ['es', 'en'],
-		defaultLocale: 'es',
+		locales: ['en', 'es'],
+		defaultLocale: 'en',
 		routing: {
 			prefixDefaultLocale: false,
 		},

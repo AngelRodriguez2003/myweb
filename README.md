@@ -1,43 +1,56 @@
-# Astro Starter Kit: Minimal
+# Angel Rodriguez — Portfolio
 
-```sh
-yarn create astro@latest -- --template minimal
-```
+Personal portfolio of Angel Rodriguez, front-end and mobile developer. It includes the home page (about, skills, experience, projects and contact) and the **Project Explosive** case study, in English and Spanish, with dark and light themes.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Built with [Astro 7](https://astro.build) as a static site with no UI framework. Interactivity (project modal, tabs, theme, language and mobile menu) is vanilla JavaScript inside the `.astro` components.
 
-## 🚀 Project Structure
+## Requirements
 
-Inside of your Astro project, you'll see the following folders and files:
+- Node `>= 22.22.0`
+- Yarn
+
+## Commands
+
+| Command                                   | Action                                          |
+| :---------------------------------------- | :---------------------------------------------- |
+| `yarn install`                            | Install dependencies                            |
+| `yarn astro dev --background`             | Start the dev server at `localhost:4321`        |
+| `yarn astro dev status` / `stop` / `logs` | Check, stop or show logs for the dev server     |
+| `yarn build`                              | Build the production site to `./dist/`          |
+| `yarn preview`                            | Serve the build locally                         |
+
+## Routes
+
+| English (default)              | Spanish                              |
+| :----------------------------- | :----------------------------------- |
+| `/`                            | `/es/`                               |
+| `/projects/project-explosive`  | `/es/proyectos/project-explosive`    |
+
+## Structure
 
 ```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+src/
+├── pages/        # Routes; thin wrappers that pass `lang` to the views
+├── views/        # Home.astro and ProjectExplosiveCase.astro
+├── components/   # Home sections, case study (case/) and device frames (devices/)
+├── layouts/      # BaseLayout.astro
+├── i18n/         # Copy in es.ts (source of truth) and en.ts; cross-language routes in utils.ts
+├── data/         # Contact (site.ts), tech stack (tech.ts) and Project Explosive data (explosive.ts)
+├── styles/       # tokens.css (design tokens per theme) and global.css (shared classes)
+├── scripts/      # Scroll reveal animations
+└── assets/       # Project Explosive screenshots
+docs/design/      # Reference design
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Notes
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- **Copy**: all content lives in `src/i18n/`. `es.ts` defines the `Dictionary` type, so `en.ts` must have the same keys.
+- **Styles**: plain CSS. Dark is the designed theme and light is derived from it. Project Explosive uses its own warm palette (`--w-*` tokens).
+- **Fonts**: Bricolage Grotesque, Instrument Sans and JetBrains Mono, loaded with the Astro Fonts API (configured in `astro.config.mjs`).
+- **Design**: `docs/design/Portafolio Angel Rodriguez.html` is a bundle that unpacks itself in the browser, so open it there to view it.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Contact
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `yarn install`             | Installs dependencies                            |
-| `yarn dev`             | Starts local dev server at `localhost:4321`      |
-| `yarn build`           | Build your production site to `./dist/`          |
-| `yarn preview`         | Preview your build locally, before deploying     |
-| `yarn astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `yarn astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- [LinkedIn](https://www.linkedin.com/in/angel-david-rodriguez-botello-b68967258/)
+- [GitHub](https://github.com/AngelRodriguez2003)
+- angeldrb09@hotmail.com
