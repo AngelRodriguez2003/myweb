@@ -1,4 +1,5 @@
 ---
+import { projects } from '../data/projects';
 import { useTranslations, type Lang } from '../i18n/utils';
 import ProjectCard from './ProjectCard.astro';
 import ProjectModal from './ProjectModal.astro';
@@ -10,19 +11,22 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang).projects;
-const modalId = 'explosive-modal';
 ---
 
 <section id="proyectos" class="container section projects" aria-labelledby="projects-title">
 	<SectionHeading id="projects-title" label={t.label} title={t.title} />
 	<div class="projects__grid">
-		<ProjectCard lang={lang} modalId={modalId} />
-		<article class="projects__next" data-reveal style="--i:2">
+		{
+			projects.map((project, i) => (
+				<ProjectCard lang={lang} project={project} modalId={`${project.key}-modal`} index={i + 1} />
+			))
+		}
+		<article class="projects__next" data-reveal style={`--i:${projects.length + 1}`}>
 			<h3 class="projects__next-title">{t.nextTitle}</h3>
 			<p class="projects__next-body">{t.nextBody}</p>
 		</article>
 	</div>
-	<ProjectModal lang={lang} id={modalId} />
+	{projects.map((project) => <ProjectModal lang={lang} project={project} id={`${project.key}-modal`} />)}
 </section>
 
 <style>

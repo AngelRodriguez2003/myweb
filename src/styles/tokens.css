@@ -140,3 +140,18 @@
 	--dur-slow: 600ms;
 	--stagger: 70ms;
 }
+
+/* Project card/modal media for projects without their own palette: point the --w-* tokens at the site ones. */
+.tone-base {
+	--w-bg: var(--bg);
+	--w-surface: var(--surface-3);
+	--w-surface-2: var(--surface);
+	--w-line-2: var(--line-3);
+	--w-line-3: var(--line-4);
+	--w-text: var(--text);
+	--w-muted: var(--muted);
+	--w-accent: var(--accent-ink);
+	--w-frame: var(--line-4);
+	--w-tab-bg: var(--text);
+	--w-tab-fg: var(--bg);
+}

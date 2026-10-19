@@ -99,6 +99,7 @@ const en: Dictionary = {
 		title: 'What I build on my own',
 		details: 'See details',
 		try: 'Try it',
+		code: 'See code',
 		nextTitle: 'Next project',
 		nextBody: 'In progress. New projects will show up here.',
 		modal: {
@@ -112,11 +113,12 @@ const en: Dictionary = {
 			tryWeb: 'Try it on the web',
 			fullCase: 'See full case study',
 			code: 'See code on GitHub',
-			screenshotOf: 'Project Explosive screenshot',
+			screenshotOf: 'Screenshot of',
 			stack: 'TECHNOLOGIES',
 		},
 	},
 	explosive: {
+		name: 'Project Explosive',
 		chips: ['iOS · Android · Web', 'Personal project'],
 		stack: 'React Native · Expo · TypeScript · Supabase',
 		tagline:
@@ -158,6 +160,38 @@ const en: Dictionary = {
 			catalogo: { title: 'Catalog', desc: '509 exercises with filters.' },
 			nuevoCiclo: { title: 'New cycle', desc: '' },
 			ajustes: { title: 'Settings', desc: '' },
+		},
+	},
+	portfolio: {
+		name: 'This portfolio',
+		chips: ['Web · EN / ES', 'Personal project'],
+		stack: 'Astro · TypeScript · CSS',
+		tagline:
+			'The site you’re looking at: a static portfolio in English and Spanish, with light and dark themes and no UI framework.',
+		browserAlt: 'The portfolio in the browser',
+		phoneAlt: 'The portfolio on a phone',
+		intro: 'I designed and built it to show my work. You have it open right now.',
+		what: [
+			'Brings my experience, skills and projects together on one page.',
+			'English and Spanish, each language with its own URLs.',
+			'Light and dark themes that remember your choice.',
+			'A full case study for Project Explosive.',
+			'Built for mobile, with an adapted menu and modals.',
+		],
+		how: [
+			'Astro with static output, no adapter and no UI framework.',
+			'Interactivity in plain TypeScript: <dialog> modals, tabs and menu.',
+			'CSS-only animations that respect reduced motion.',
+			'Images optimized with astro:assets and fonts through the Fonts API.',
+			'CSS design tokens for both themes.',
+		],
+		tech: ['Astro', 'TypeScript', 'HTML', 'CSS', 'Astro i18n', 'astro:assets', 'Fonts API'],
+		screens: {
+			inicio: { title: 'Home', desc: 'Introduction and a way into the projects.' },
+			experiencia: { title: 'Experience', desc: 'Where I’ve worked and what I did.' },
+			caso: { title: 'Case study', desc: 'The full Project Explosive page.' },
+			temaClaro: { title: 'Light theme', desc: 'Derived from the dark one with the same tokens.' },
+			menu: { title: 'Menu', desc: 'Full-screen navigation on mobile.' },
 		},
 	},
 	contact: {

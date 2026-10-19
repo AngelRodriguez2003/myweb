@@ -1,34 +1,35 @@
 ---
 import { Image } from 'astro:assets';
-import { explosive } from '../data/explosive';
-import { routes, useTranslations, type Lang } from '../i18n/utils';
+import type { Project, ProjectCopy } from '../data/projects';
+import { useTranslations, type Lang } from '../i18n/utils';
 import BrowserFrame from './devices/BrowserFrame.astro';
 import PhoneFrame from './devices/PhoneFrame.astro';
 import Icon from './Icon.astro';
 
 interface Props {
 	lang: Lang;
+	project: Project;
 	id: string;
 }
 
-const { lang, id } = Astro.props;
+const { lang, project, id } = Astro.props;
 const t = useTranslations(lang);
 const m = t.projects.modal;
-const p = t.explosive;
+const p: ProjectCopy = t[project.key];
 
 const views = [
-	{ key: 'web', label: m.web, shots: explosive.web },
-	{ key: 'mobile', label: m.mobile, shots: explosive.mobile },
+	{ key: 'web', label: m.web, shots: project.web },
+	{ key: 'mobile', label: m.mobile, shots: project.mobile },
 ] as const;
 
-const altFor = (title: string) => `${m.screenshotOf}: ${title}`;
+const altFor = (title: string) => `${m.screenshotOf} ${p.name}: ${title}`;
 ---
 
-<dialog class="modal" id={id} aria-labelledby={`${id}-title`}>
+<dialog class:list={['modal', project.tone === 'base' && 'tone-base']} id={id} aria-labelledby={`${id}-title`}>
 	<div class="modal__inner" data-view="web" data-idx="0">
 		<div class="modal__header">
 			<div class="modal__heading">
-				<h3 class="modal__title" id={`${id}-title`}>Project Explosive</h3>
+				<h3 class="modal__title" id={`${id}-title`}>{p.name}</h3>
 				<span class="modal__stack">{p.stack}</span>
 			</div>
 			<button type="button" class="icon-btn" data-close aria-label={m.close}>
@@ -67,7 +68,7 @@ const altFor = (title: string) => `${m.screenshotOf}: ${title}`;
 						>
 							<div class="modal__stage">
 								{view.key === 'web' ? (
-									<BrowserFrame class="modal__browser" url={explosive.liveHost}>
+									<BrowserFrame class="modal__browser" url={project.liveHost}>
 										{view.shots.map((shot, i) => (
 											<Image
 												src={shot.image}
@@ -136,9 +137,22 @@ const altFor = (title: string) => `${m.screenshotOf}: ${title}`;
 					<ul class="modal__tech">{p.tech.map((item) => <li class="chip">{item}</li>)}</ul>
 				</div>
 				<div class="modal__ctas">
-					<a class="btn btn--primary" href={explosive.liveUrl} rel="noopener" target="_blank">{m.tryWeb}</a>
-					<a class="btn btn--ghost" href={routes.explosive[lang]}>{m.fullCase}</a>
-					<a class="btn modal__code" href={explosive.repoUrl} rel="noopener" target="_blank">{m.code}</a>
+					{
+						project.liveUrl && (
+							<a class="btn btn--primary" href={project.liveUrl} rel="noopener" target="_blank">
+								{m.tryWeb}
+							</a>
+						)
+					}
+					{project.caseUrl && <a class="btn btn--ghost" href={project.caseUrl[lang]}>{m.fullCase}</a>}
+					<a
+						class:list={['btn', project.liveUrl ? 'modal__code' : 'btn--primary']}
+						href={project.repoUrl}
+						rel="noopener"
+						target="_blank"
+					>
+						{m.code}
+					</a>
 				</div>
 			</div>
 		</div>

@@ -1,5 +1,6 @@
-import type { ImageMetadata } from 'astro';
 import type { Dictionary } from '../i18n/es';
+import { routes } from '../i18n/utils';
+import type { Screenshot as BaseScreenshot } from './projects';
 
 import lightCatalogo from '../assets/projects/project-explosive/light-catalogo.webp';
 import lightInicio from '../assets/projects/project-explosive/light-inicio.webp';
@@ -27,12 +28,12 @@ const demo = (id: DemoId, file: string) => ({
 	still: `/projects/project-explosive/${file}-still.webp`,
 });
 
-export interface Screenshot {
-	id: ScreenId;
-	image: ImageMetadata;
-}
+type Screenshot = BaseScreenshot<ScreenId>;
 
 export const explosive = {
+	key: 'explosive' as const,
+	tone: 'warm' as const,
+	caseUrl: routes.explosive,
 	liveUrl: 'https://project-explosive.expo.app',
 	liveHost: 'project-explosive.expo.app',
 	repoUrl: 'https://github.com/AngelRodriguez2003/my-bilbo-app',

@@ -97,6 +97,7 @@ const es = {
 		title: 'Lo que construyo por mi cuenta',
 		details: 'Ver detalles',
 		try: 'Probar',
+		code: 'Ver código',
 		nextTitle: 'Próximo proyecto',
 		nextBody: 'En construcción. Aquí irán apareciendo los siguientes.',
 		modal: {
@@ -110,11 +111,12 @@ const es = {
 			tryWeb: 'Probar en la web',
 			fullCase: 'Ver caso completo',
 			code: 'Ver código en GitHub',
-			screenshotOf: 'Captura de Project Explosive',
+			screenshotOf: 'Captura de',
 			stack: 'TECNOLOGÍAS',
 		},
 	},
 	explosive: {
+		name: 'Project Explosive',
 		chips: ['iOS · Android · Web', 'Proyecto personal'],
 		stack: 'React Native · Expo · TypeScript · Supabase',
 		tagline:
@@ -156,6 +158,38 @@ const es = {
 			catalogo: { title: 'Catálogo', desc: '509 ejercicios con filtros.' },
 			nuevoCiclo: { title: 'Nuevo ciclo', desc: '' },
 			ajustes: { title: 'Ajustes', desc: '' },
+		},
+	},
+	portfolio: {
+		name: 'Este portafolio',
+		chips: ['Web · ES / EN', 'Proyecto personal'],
+		stack: 'Astro · TypeScript · CSS',
+		tagline:
+			'El sitio que estás viendo: un portafolio estático en español e inglés, con tema claro y oscuro y sin frameworks de UI.',
+		browserAlt: 'El portafolio en el navegador',
+		phoneAlt: 'El portafolio en el celular',
+		intro: 'Lo diseñé y construí para mostrar mi trabajo. Lo tienes abierto ahora mismo.',
+		what: [
+			'Reúne mi experiencia, habilidades y proyectos en una sola página.',
+			'Español e inglés, cada idioma con sus propias URLs.',
+			'Tema claro y oscuro que recuerda tu elección.',
+			'Caso de estudio completo de Project Explosive.',
+			'Pensado para móvil, con menú y modales adaptados.',
+		],
+		how: [
+			'Astro con salida estática, sin adaptador ni framework de UI.',
+			'Interactividad en TypeScript plano: modales con <dialog>, tabs y menú.',
+			'Animaciones solo con CSS que respetan el movimiento reducido.',
+			'Imágenes optimizadas con astro:assets y fuentes con la Fonts API.',
+			'Tokens de diseño en CSS para los dos temas.',
+		],
+		tech: ['Astro', 'TypeScript', 'HTML', 'CSS', 'Astro i18n', 'astro:assets', 'Fonts API'],
+		screens: {
+			inicio: { title: 'Inicio', desc: 'Presentación y acceso a los proyectos.' },
+			experiencia: { title: 'Experiencia', desc: 'Dónde he trabajado y qué hice.' },
+			caso: { title: 'Caso de estudio', desc: 'La página completa de Project Explosive.' },
+			temaClaro: { title: 'Tema claro', desc: 'Derivado del oscuro con los mismos tokens.' },
+			menu: { title: 'Menú', desc: 'Navegación a pantalla completa en el móvil.' },
 		},
 	},
 	contact: {

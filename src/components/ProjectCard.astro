@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { explosive } from '../data/explosive';
+import type { Project, ProjectCopy } from '../data/projects';
 import { useTranslations, type Lang } from '../i18n/utils';
 import BrowserFrame from './devices/BrowserFrame.astro';
 import PhoneFrame from './devices/PhoneFrame.astro';
@@ -8,20 +8,23 @@ import Icon from './Icon.astro';
 
 interface Props {
 	lang: Lang;
+	project: Project;
 	/** id of the <dialog> opened by "Ver detalles". */
 	modalId: string;
+	/** Stagger step for the scroll reveal. */
+	index: number;
 }
 
-const { lang, modalId } = Astro.props;
+const { lang, project, modalId, index } = Astro.props;
 const t = useTranslations(lang);
-const p = t.explosive;
+const p: ProjectCopy = t[project.key];
 ---
 
-<article class="project-card" data-reveal style="--i:1">
+<article class:list={['project-card', project.tone === 'base' && 'tone-base']} data-reveal style={`--i:${index}`}>
 	<div class="project-card__media">
 		<BrowserFrame class="project-card__browser">
 			<Image
-				src={explosive.cover.web}
+				src={project.cover.web}
 				alt={p.browserAlt}
 				widths={[400, 600, 1000]}
 				sizes="(max-width: 719px) 75vw, (max-width: 1023px) 70vw, 500px"
@@ -30,7 +33,7 @@ const p = t.explosive;
 		</BrowserFrame>
 		<PhoneFrame
 			class="project-card__phone"
-			image={explosive.cover.mobile}
+			image={project.cover.mobile}
 			alt={p.phoneAlt}
 			sizes="(max-width: 719px) 26vw, 150px"
 		/>
@@ -39,14 +42,19 @@ const p = t.explosive;
 		<ul class="project-card__chips">
 			{p.chips.map((chip) => <li class="chip">{chip}</li>)}
 		</ul>
-		<h3 class="project-card__title">Project Explosive</h3>
+		<h3 class="project-card__title">{p.name}</h3>
 		<p class="project-card__text">{p.tagline}</p>
 		<div class="project-card__actions">
 			<button type="button" class="btn btn--primary btn--sm" data-open-modal={modalId} aria-haspopup="dialog">
 				{t.projects.details}
 			</button>
-			<a class="btn btn--ghost btn--sm" href={explosive.liveUrl} rel="noopener" target="_blank">
-				{t.projects.try}<Icon name="arrow-up-right" size={16} />
+			<a
+				class="btn btn--ghost btn--sm"
+				href={project.liveUrl ?? project.repoUrl}
+				rel="noopener"
+				target="_blank"
+			>
+				{project.liveUrl ? t.projects.try : t.projects.code}<Icon name="arrow-up-right" size={16} />
 			</a>
 		</div>
 	</div>
